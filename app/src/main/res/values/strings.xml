@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TutorApp</string>
+    <string name="logoDescr">App Logo</string>
+    <string name="studentText">Continue as Student</string>
+    <string name="tutorText">Continue as Tutor</string>
+    <string name="studentSearchTitle">Find a Tutor</string>
+    <string name="nameHint">Your Name</string>
+    <string name="courseHint">Course</string>
+    <string name="priceHint">Price</string>
+    <string name="whereHint">Where</string>
+    <string name="notesHint">Notes</string>
+    <string name="searchButtonText">Search for Available Tutors</string>
+</resources>
