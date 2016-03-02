@@ -63,14 +63,14 @@
         />
 
     <EditText
-        android:id="@+id/whereText"
+        android:id="@+id/buildingText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/priceText"
         android:inputType="textCapSentences"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:hint="@string/whereHint"
+        android:hint="@string/buildingHint"
         android:focusableInTouchMode="true"
         />
 
@@ -78,8 +78,8 @@
         android:id="@+id/notesText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/whereText"
-        android:inputType="textMultiLine"
+        android:layout_below="@id/buildingText"
+        android:inputType="textMultiLine|textCapSentences"
         android:lines="5"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"

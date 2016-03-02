@@ -8,7 +8,7 @@
     <string name="nameHint">Your Name</string>
     <string name="courseHint">Course</string>
     <string name="priceHint">Price (one time payment)</string>
-    <string name="whereHint">Building to meet in</string>
+    <string name="buildingHint">Building to meet in</string>
     <string name="notesHint">Message for Tutor\n\n(e.g. "I only have 10 minutes… Who knows about photosynthesis?"</string>
     <string name="searchButtonText">Search for Available Tutors</string>
 </resources>

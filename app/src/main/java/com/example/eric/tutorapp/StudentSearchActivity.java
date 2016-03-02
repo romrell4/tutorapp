@@ -2,6 +2,7 @@ package com.example.eric.tutorapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,19 +11,25 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.eric.tutorapp.model.Course;
+import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
-
-    private Firebase myCoursesRef;
+    private static final String BASE_URL = "https://romrell4-tutorapp.firebaseio.com/";
+    private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
+    private Map<String, Course> courseMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +40,24 @@ public class StudentSearchActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
 
-        myCoursesRef = new Firebase("https://romrell4-tutorapp.firebaseio.com/courses");
+        Firebase myCoursesRef = new Firebase(BASE_URL + "courses");
         myCoursesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> courseList = new ArrayList<>();
+                courseMap = new HashMap<>();
                 Iterable<DataSnapshot> courses = dataSnapshot.getChildren();
                 for (DataSnapshot department : courses) {
                     for (DataSnapshot course : department.getChildren()) {
-                        courseList.add(department.getKey() + " " + course.child("catalogNumber").getValue() + " - " + course.child("transcriptTitle").getValue());
+
+                        Course courseObject = new Course(department.getKey(), course.child("catalogNumber").getValue().toString(), course.child("transcriptTitle").getValue().toString());
+                        courseMap.put(courseObject.toDescriptionString(), courseObject);
                     }
                 }
+
                 Log.d(TAG, "onDataChange: Got all info!");
 
                 final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
-                courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.course_spinner_item, courseList));
+                courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.course_spinner_item, courseMap.keySet().toArray()));
 
                 dialog.dismiss();
             }
@@ -62,7 +72,49 @@ public class StudentSearchActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent());
+                //Validate data
+                EditText nameText = (EditText) findViewById(R.id.nameText);
+                EditText courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
+                EditText priceText = (EditText) findViewById(R.id.priceText);
+                EditText buildingText = (EditText) findViewById(R.id.buildingText);
+                EditText messageText = (EditText) findViewById(R.id.notesText);
+                if (nameText == null || nameText.getText() == null || nameText.getText().toString().isEmpty()) {
+                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (courseText == null || courseText.getText() == null || courseText.getText().toString().isEmpty() || !courseMap.containsKey(courseText.getText().toString())) {
+                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid course", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (priceText == null || priceText.getText() == null || !priceText.getText().toString().matches(PRICE_REG_EX)) {
+                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (buildingText == null || buildingText.getText() == null || buildingText.getText().toString().isEmpty()) {
+                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid building", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (messageText == null || messageText.getText() == null || messageText.getText().toString().isEmpty()) {
+                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid message", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //Get data
+                String name = nameText.getText().toString();
+                Course course = courseMap.get(courseText.getText().toString());
+                BigDecimal price = new BigDecimal(priceText.getText().toString());
+                String building = buildingText.getText().toString();
+                String message = messageText.getText().toString();
+
+                //Add request to the database
+                TutorRequest request = new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message);
+                Log.d(TAG, "onClick: " + request);
+                Firebase requestsRef = new Firebase(BASE_URL + "requests");
+                requestsRef.push().setValue(request);
+
+                Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
+                intent.putExtra("com.tutorapp.request", request);
+                startActivity(intent);
             }
         });
     }
