@@ -4,11 +4,17 @@
     <string name="studentText">Continue as Student</string>
     <string name="tutorText">Continue as Tutor</string>
 
-    <string name="toolbarTitle">Find a Tutor</string>
+    <string name="studentSearchToolbarTitle">Find a Tutor</string>
     <string name="nameHint">Your Name</string>
     <string name="courseHint">Course</string>
     <string name="priceHint">Price (one time payment)</string>
     <string name="buildingHint">Building to meet in</string>
     <string name="notesHint">Message for Tutor\n\n(e.g. "I only have 10 minutes… Who knows about photosynthesis?"</string>
     <string name="searchButtonText">Search for Available Tutors</string>
+    <string name="pendingTutorsText">36 tutors still haven\'t replied…</string>
+
+    <string name="availableTutorsToolbarTitle">Available Tutors</string>
+    <string name="tutorImage">Tutor Image</string>
+
+
 </resources>

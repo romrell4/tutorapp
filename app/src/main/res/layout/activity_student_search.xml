@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:text="@string/toolbarTitle"
+            android:text="@string/studentSearchToolbarTitle"
             />
     </android.support.v7.widget.Toolbar>
 

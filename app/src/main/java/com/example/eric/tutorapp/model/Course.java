@@ -46,4 +46,9 @@ public class Course implements Serializable {
     public String toDescriptionString() {
         return departmentName + " " + catalogNumber + " - " + transcriptTitle;
     }
+
+    @Override
+    public String toString() {
+        return "'" + departmentName + " " + catalogNumber + " - " + transcriptTitle + "'";
+    }
 }

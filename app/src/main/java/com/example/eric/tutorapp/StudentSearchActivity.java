@@ -27,7 +27,6 @@ import java.util.Map;
 
 public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
-    private static final String BASE_URL = "https://romrell4-tutorapp.firebaseio.com/";
     private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
     private Map<String, Course> courseMap;
 
@@ -40,7 +39,7 @@ public class StudentSearchActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
 
-        Firebase myCoursesRef = new Firebase(BASE_URL + "courses");
+        Firebase myCoursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
         myCoursesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,49 +72,60 @@ public class StudentSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Validate data
-                EditText nameText = (EditText) findViewById(R.id.nameText);
-                EditText courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
-                EditText priceText = (EditText) findViewById(R.id.priceText);
-                EditText buildingText = (EditText) findViewById(R.id.buildingText);
-                EditText messageText = (EditText) findViewById(R.id.notesText);
-                if (nameText == null || nameText.getText() == null || nameText.getText().toString().isEmpty()) {
-                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (courseText == null || courseText.getText() == null || courseText.getText().toString().isEmpty() || !courseMap.containsKey(courseText.getText().toString())) {
-                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid course", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (priceText == null || priceText.getText() == null || !priceText.getText().toString().matches(PRICE_REG_EX)) {
-                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (buildingText == null || buildingText.getText() == null || buildingText.getText().toString().isEmpty()) {
-                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid building", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (messageText == null || messageText.getText() == null || messageText.getText().toString().isEmpty()) {
-                    Toast.makeText(StudentSearchActivity.this, "Please enter a valid message", Toast.LENGTH_SHORT).show();
-                    return;
+                TutorRequest request = getRequestIfValid();
+                if (request != null) {
+                    Log.d(TAG, "onClick: " + request);
+                    Firebase requestsRef = new Firebase(HomeActivity.BASE_URL + "requests");
+                    requestsRef.push().setValue(request);
+
+                    Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
+                    intent.putExtra("com.tutorapp.request", request);
+                    startActivity(intent);
                 }
 
-                //Get data
-                String name = nameText.getText().toString();
-                Course course = courseMap.get(courseText.getText().toString());
-                BigDecimal price = new BigDecimal(priceText.getText().toString());
-                String building = buildingText.getText().toString();
-                String message = messageText.getText().toString();
-
-                //Add request to the database
-                TutorRequest request = new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message);
-                Log.d(TAG, "onClick: " + request);
-                Firebase requestsRef = new Firebase(BASE_URL + "requests");
-                requestsRef.push().setValue(request);
-
+                //For testing only...
                 Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
                 intent.putExtra("com.tutorapp.request", request);
                 startActivity(intent);
             }
         });
+    }
+
+    private TutorRequest getRequestIfValid() {
+        EditText nameText = (EditText) findViewById(R.id.nameText);
+        EditText courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
+        EditText priceText = (EditText) findViewById(R.id.priceText);
+        EditText buildingText = (EditText) findViewById(R.id.buildingText);
+        EditText messageText = (EditText) findViewById(R.id.notesText);
+        if (nameText == null || nameText.getText() == null || nameText.getText().toString().isEmpty()) {
+            Toast.makeText(StudentSearchActivity.this, "Please enter a valid name", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (courseText == null || courseText.getText() == null || courseText.getText().toString().isEmpty() || !courseMap.containsKey(courseText.getText().toString())) {
+            Toast.makeText(StudentSearchActivity.this, "Please enter a valid course", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (priceText == null || priceText.getText() == null || !priceText.getText().toString().matches(PRICE_REG_EX)) {
+            Toast.makeText(StudentSearchActivity.this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (buildingText == null || buildingText.getText() == null || buildingText.getText().toString().isEmpty()) {
+            Toast.makeText(StudentSearchActivity.this, "Please enter a valid building", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (messageText == null || messageText.getText() == null || messageText.getText().toString().isEmpty()) {
+            Toast.makeText(StudentSearchActivity.this, "Please enter a valid message", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        //Get data
+        String name = nameText.getText().toString();
+        Course course = courseMap.get(courseText.getText().toString());
+        BigDecimal price = new BigDecimal(priceText.getText().toString());
+        String building = buildingText.getText().toString();
+        String message = messageText.getText().toString();
+
+        //Add request to the database
+        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message);
     }
 }

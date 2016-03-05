@@ -3,10 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/white"
     tools:context="com.example.eric.tutorapp.AvailableTutorsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="@string/availableTutorsToolbarTitle"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/pendingTutors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/light_grey"
+        android:text="@string/pendingTutorsText"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        />
+
+    <ListView
+        android:id="@+id/availableTutors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pendingTutors" />
 
 </RelativeLayout>

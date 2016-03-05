@@ -11,6 +11,7 @@ import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
+    public static final String BASE_URL = "https://romrell4-tutorapp.firebaseio.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
