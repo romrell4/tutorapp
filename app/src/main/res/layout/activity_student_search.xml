@@ -18,8 +18,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="30sp"
             android:text="@string/studentSearchToolbarTitle"
             />
     </android.support.v7.widget.Toolbar>
@@ -74,17 +76,31 @@
         android:focusableInTouchMode="true"
         />
 
+    <TextView
+        android:id="@+id/messageBoxTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buildingText"
+        android:layout_marginTop="10dp"
+        android:text="@string/messageBoxTitle"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        />
+
     <EditText
         android:id="@+id/notesText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buildingText"
+        android:layout_below="@id/messageBoxTitle"
         android:inputType="textMultiLine|textCapSentences"
         android:lines="5"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
         android:hint="@string/notesHint"
+        android:background="@drawable/edit_text_bordered"
         android:focusableInTouchMode="true"
+        android:layout_margin="8dp"
+        android:padding="5dp"
         />
 
     <Button
@@ -98,6 +114,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:text="@string/searchButtonText"
+        android:textAllCaps="true"
         />
 
 
