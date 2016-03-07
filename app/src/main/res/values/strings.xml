@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">TutorApp</string>
     <string name="logoDescr">App Logo</string>
-    <string name="studentText">Continue as Student</string>
-    <string name="tutorText">Continue as Tutor</string>
+    <string name="continueText">Continue As…</string>
+    <string name="studentText">Student</string>
+    <string name="tutorText">Tutor</string>
 
     <string name="studentSearchToolbarTitle">Find a Tutor</string>
     <string name="nameHint">Your Name</string>

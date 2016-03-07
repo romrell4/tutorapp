@@ -39,8 +39,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Set up intent
-//                startActivity(new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class));
+                startActivity(new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class));
             }
         });
 
