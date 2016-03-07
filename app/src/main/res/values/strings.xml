@@ -8,7 +8,7 @@
     <string name="studentSearchToolbarTitle">Get Help</string>
     <string name="nameHint">Your Name</string>
     <string name="courseHint">Course</string>
-    <string name="priceHint">Price (one time payment)</string>
+    <string name="priceHint">Price (max flat fee)</string>
     <string name="buildingHint">Building to meet in</string>
     <string name="notesHint">e.g. "I only have 10 minutes… Who knows about photosynthesis?"</string>
     <string name="searchButtonText">Find a Tutor</string>

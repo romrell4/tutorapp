@@ -43,6 +43,7 @@
         <Button
             android:id="@+id/studentButton"
             android:text="@string/studentText"
+            android:textColor="@color/white"
             android:textAllCaps="true"
             android:background="@color/colorPrimary"
             android:layout_height="wrap_content"
@@ -57,6 +58,7 @@
         <Button
             android:id="@+id/tutorButton"
             android:text="@string/tutorText"
+            android:textColor="@color/white"
             android:textAllCaps="true"
             android:background="@color/colorPrimary"
             android:layout_height="wrap_content"

@@ -34,7 +34,6 @@ public class StudentSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_student_search);
 
         final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
