@@ -20,11 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home);
 
-        TextView continueAsText = (TextView) findViewById(R.id.continueAsText);
-        continueAsText.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/alegreya-sans-sc/AlegreyaSansSC-Regular.ttf"));
-
         Button studentButton = (Button) findViewById(R.id.studentButton);
-        studentButton.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/hk-grotesk/HKGrotesk-Regular.otf"));
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
