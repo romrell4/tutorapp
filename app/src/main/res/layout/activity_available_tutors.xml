@@ -15,9 +15,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:gravity="center"
             android:text="@string/availableTutorsToolbarTitle"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textAllCaps="true"
             />
     </android.support.v7.widget.Toolbar>
 

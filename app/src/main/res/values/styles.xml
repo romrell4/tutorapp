@@ -18,11 +18,19 @@
     <style name="BottomButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingStart">30dp</item>
-        <item name="android:paddingEnd">30dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
         <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ToolBarText">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 </resources>

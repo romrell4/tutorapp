@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -95,7 +96,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
 
 
             ((TextView) view.findViewById(R.id.username)).setText(data.get(position).getUsername());
-            ((TextView) view.findViewById(R.id.ratings)).setText("Ratings: " + String.valueOf(data.get(position).getRatings().size()));
+            ImageView stars = (ImageView) view.findViewById(R.id.ratings);
             ((TextView) view.findViewById(R.id.major)).setText(data.get(position).getMajor());
 
             return view;

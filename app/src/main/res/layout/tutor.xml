@@ -25,43 +25,31 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:text="Username"
             android:textColor="@color/black" />
-        <TextView
+        <ImageView
             android:id="@+id/ratings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/three_stars"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="20dp"
-            android:text="Ratings"
-            android:textColor="@color/black" />
+            android:contentDescription="@string/ratingImage"
+            />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/major"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Major"
-            android:textColor="@color/black" />
-        <TextView
-            android:id="@+id/reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="See Reviews"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="40dp"
             android:textColor="@color/black" />
     </RelativeLayout>
 </LinearLayout>

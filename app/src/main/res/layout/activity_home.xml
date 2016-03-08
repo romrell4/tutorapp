@@ -43,31 +43,17 @@
         <Button
             android:id="@+id/studentButton"
             android:text="@string/studentText"
-            android:textColor="@color/white"
-            android:textAllCaps="true"
-            android:background="@color/colorPrimary"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/continueAsText"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            style="@style/BottomButton"
             />
 
         <Button
             android:id="@+id/tutorButton"
             android:text="@string/tutorText"
-            android:textColor="@color/white"
-            android:textAllCaps="true"
-            android:background="@color/colorPrimary"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/studentButton"
+            style="@style/BottomButton"
             />
     </RelativeLayout>
 </LinearLayout>
