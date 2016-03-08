@@ -37,7 +37,7 @@
             android:textColor="@color/black"
             android:text="@string/continueText"
             android:textAllCaps="true"
-            android:textSize="30sp"
+            android:textSize="24sp"
             />
 
         <Button

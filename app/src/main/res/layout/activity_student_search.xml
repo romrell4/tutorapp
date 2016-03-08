@@ -11,21 +11,10 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:layout_alignParentTop="true"
-        android:elevation="5dp"
-        >
+        style="@style/ToolBar">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:textAllCaps="true"
-            android:gravity="center"
-            android:textSize="28sp"
             android:text="@string/studentSearchToolbarTitle"
-            />
+            style="@style/ToolBarText" />
     </android.support.v7.widget.Toolbar>
 
     <EditText

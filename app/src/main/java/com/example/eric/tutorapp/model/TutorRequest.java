@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  * Created by eric on 3/1/16.
  */
 public class TutorRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String phoneId;
     private String name;
     private Course course;

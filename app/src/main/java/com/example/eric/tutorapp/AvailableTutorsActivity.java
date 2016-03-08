@@ -26,6 +26,7 @@ import java.util.List;
 
 public class AvailableTutorsActivity extends AppCompatActivity {
     private static final String TAG = "AvailableTutorsActivity";
+    public static final String TUTOR_INFO_ID = "com.tutorapp.tutorInfo";
     private TutorAdapter adapter;
 
     @Override
@@ -39,7 +40,12 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class));
+
+                Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable(TUTOR_INFO_ID, (Tutor) adapter.getItem(position));
+                intent.putExtras(extras);
+                startActivity(intent);
             }
         });
 

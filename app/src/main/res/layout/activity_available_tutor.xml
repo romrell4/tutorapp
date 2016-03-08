@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.eric.tutorapp.AvailableTutorActivity">
 
+    <android.support.v7.widget.Toolbar
+        style="@style/ToolBar">
+        <TextView
+            android:id="@+id/toolbarText"
+            style="@style/ToolBarText" />
+    </android.support.v7.widget.Toolbar>
+
 </RelativeLayout>

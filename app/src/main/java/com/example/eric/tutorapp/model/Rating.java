@@ -1,9 +1,13 @@
 package com.example.eric.tutorapp.model;
 
+import java.io.Serializable;
+
 /**
  * Created by eric on 3/4/16.
  */
-public class Rating {
+public class Rating implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int stars;
     private String comment;
 

@@ -6,6 +6,8 @@ import java.io.Serializable;
  * Created by eric on 3/1/16.
  */
 public class Course implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String departmentName;
     private String catalogNumber;
     private String transcriptTitle;
