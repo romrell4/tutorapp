@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:toolbarStyle">@style/ToolBar</item>
     </style>
 
     <style name="ToolBar">
@@ -22,6 +23,23 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+
+    <style name="TabLayout" parent="Base.Widget.Design.TabLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:elevation">5dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextAppearance">@style/TabLayoutText</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="TabLayoutText" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
 
     <style name="FormEditText" parent="Base.V7.Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>

@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Student");
-                startActivity(new Intent(HomeActivity.this, StudentSearchActivity.class));
+                startActivity(new Intent(HomeActivity.this, AvailableTutorsActivity.class));
             }
         });
 

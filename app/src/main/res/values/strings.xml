@@ -18,6 +18,7 @@
     <string name="tutorImage">Tutor Image</string>
     <string name="messageBoxTitle">Message for Tutor</string>
     <string name="ratingImage">Rating Image</string>
+    <string name="test">Test Text</string>
 
 
 </resources>
