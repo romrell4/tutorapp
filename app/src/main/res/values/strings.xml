@@ -19,6 +19,7 @@
     <string name="messageBoxTitle">Message for Tutor</string>
     <string name="ratingImage">Rating Image</string>
     <string name="test">Test Text</string>
+    <string name="message_elipses">Write a message…</string>
 
 
 </resources>

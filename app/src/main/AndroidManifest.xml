@@ -10,17 +10,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".HomeActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".StudentSearchActivity"/>
-        <activity android:name=".AvailableTutorsActivity"/>
-        <activity android:name=".AvailableTutorActivity">
-        </activity>
+        <activity android:name=".StudentSearchActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".AvailableTutorsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".AvailableTutorActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>
