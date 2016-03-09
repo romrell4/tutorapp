@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.eric.tutorapp.model.ChatMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,25 +123,6 @@ public class MessageFragment extends Fragment {
             chatText.setTextColor(chatMessage.isLeft() ? ContextCompat.getColor(getContext(), R.color.black) :ContextCompat.getColor(getContext(), R.color.white));
             singleMessageContainer.setGravity(chatMessage.isLeft() ? Gravity.START : Gravity.END);
             return row;
-        }
-
-    }
-
-    private class ChatMessage {
-        private String text;
-        private boolean left;
-
-        public ChatMessage(String text, boolean left) {
-            this.text = text;
-            this.left = left;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public boolean isLeft() {
-            return left;
         }
     }
 }
