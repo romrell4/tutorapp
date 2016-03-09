@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.eric.tutorapp.OpportunitiesActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolBar">
+        <TextView
+            android:text="@string/opportunitiesToolbarTitle"
+            style="@style/ToolBarText" />
+    </android.support.v7.widget.Toolbar>
+
     <ListView
         android:id="@+id/opportunities"
         android:layout_width="match_parent"

@@ -19,9 +19,11 @@
     <string name="messageBoxTitle">Message for Tutor</string>
     <string name="ratingImage">Rating Image</string>
     <string name="message_elipses">Write a message…</string>
+    <string name="reviewAmountFormat">(%d)</string>
 
     <string name="authorFormat">%s said:</string>
-    <string name="reviewAmountFormat">(%d)</string>
+
+    <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
 
 
 </resources>

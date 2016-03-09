@@ -32,7 +32,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opportunities);
 
         final ListView opportunities = (ListView) findViewById(R.id.opportunities);
-        final OpportunityAdapter adapter = new OpportunityAdapter(this, android.R.layout.simple_list_item_1);
+        final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
 
         opportunities.setAdapter(adapter);
         opportunities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +92,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
             View view = convertView;
             if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                view = inflater.inflate(R.layout.opportunity, parent, false);
             }
 
             TextView text = (TextView) view.findViewById(R.id.text);
