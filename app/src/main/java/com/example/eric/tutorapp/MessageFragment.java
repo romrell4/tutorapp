@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -83,9 +84,7 @@ public class MessageFragment extends Fragment {
     }
 
     private class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
-        private TextView chatText;
         private List<ChatMessage> chatMessageList = new ArrayList<>();
-        private LinearLayout singleMessageContainer;
 
         public ChatArrayAdapter(Context context, int resource) {
             super(context, resource);
@@ -114,11 +113,12 @@ public class MessageFragment extends Fragment {
                 LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.chat_message, parent, false);
             }
-            singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
+            LinearLayout singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
             ChatMessage chatMessage = getItem(position);
-            chatText = (TextView) row.findViewById(R.id.singleMessage);
+            TextView chatText = (TextView) row.findViewById(R.id.singleMessage);
             chatText.setText(chatMessage.getText());
             chatText.setBackgroundResource(chatMessage.isLeft() ? R.drawable.bubble_left : R.drawable.bubble_right);
+            chatText.setTextColor(chatMessage.isLeft() ? ContextCompat.getColor(getContext(), R.color.black) :ContextCompat.getColor(getContext(), R.color.white));
             singleMessageContainer.setGravity(chatMessage.isLeft() ? Gravity.START : Gravity.END);
             return row;
         }
