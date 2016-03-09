@@ -26,16 +26,34 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:textColor="@color/black" />
-        <ImageView
-            android:id="@+id/ratings"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/three_stars"
+            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="20dp"
-            android:contentDescription="@string/ratingImage"
-            />
+            >
+
+            <ImageView
+                android:id="@+id/ratings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/three_stars"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/ratingImage"
+                />
+
+            <TextView
+                android:id="@+id/reviewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ratings"
+                />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout

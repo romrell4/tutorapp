@@ -10,6 +10,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.eric.tutorapp.model.Course;
+import com.example.eric.tutorapp.model.TutorRequest;
+
+import java.math.BigDecimal;
+
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     public static final String BASE_URL = "https://romrell4-tutorapp.firebaseio.com/";

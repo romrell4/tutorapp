@@ -21,6 +21,7 @@
     <string name="message_elipses">Write a message…</string>
 
     <string name="authorFormat">%s said:</string>
+    <string name="reviewAmountFormat">(%d)</string>
 
 
 </resources>

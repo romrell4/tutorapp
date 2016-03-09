@@ -13,17 +13,17 @@ public class Tutor implements Serializable {
     private String password;
     private String major;
     private List<Course> courses;
-    private List<Rating> ratings;
+    private List<Review> reviews;
 
     public Tutor() {
     }
 
-    public Tutor(String username, String password, String major, List<Course> courses, List<Rating> ratings) {
+    public Tutor(String username, String password, String major, List<Course> courses, List<Review> reviews) {
         this.username = username;
         this.password = password;
         this.major = major;
         this.courses = courses;
-        this.ratings = ratings;
+        this.reviews = reviews;
     }
 
     public String getUsername() {
@@ -58,12 +58,12 @@ public class Tutor implements Serializable {
         this.courses = courses;
     }
 
-    public List<Rating> getRatings() {
-        return ratings;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Tutor implements Serializable {
                 ", password='" + password + '\'' +
                 ", major='" + major + '\'' +
                 ", courses=" + courses +
-                ", ratings=" + ratings +
+                ", reviews=" + reviews +
                 '}';
     }
 }

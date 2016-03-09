@@ -14,11 +14,23 @@
             android:id="@+id/toolbar"
             style="@style/ToolBar">
 
-            <TextView
-                android:id="@+id/toolbarText"
-                android:textColor="@color/white"
-                style="@style/ToolBarText"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/toolbarText"
+                    android:textColor="@color/white"
+                    style="@style/ToolBarText"
+                    />
+                <Button
+                    android:id="@+id/confirmButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/checkmark"
+                    />
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

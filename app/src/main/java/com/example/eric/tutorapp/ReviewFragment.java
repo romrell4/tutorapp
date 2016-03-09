@@ -73,9 +73,9 @@ public class ReviewFragment extends Fragment {
         @Override
         public Review getItem(int position) {
             if (position == 0) {
-                return new Review(4, "Mike is a great teacher, but sometimes I just can't stop thinking about sports...", new Date(), "Ray");
+                return new Review(4, "Mike is a great teacher, but sometimes I just can't stop thinking about sports...", "1/6/2016", "Ray");
             } else {
-                return new Review(3, "Mike is a great teacher, but have you ever heard of Clash of Clans? Now that's a great game.", new Date(), "Mike");
+                return new Review(3, "Mike is a great teacher, but have you ever heard of Clash of Clans? Now that's a great game.", "3/4/2016", "Mike");
             }
 //            return reviewList.get(position);
         }

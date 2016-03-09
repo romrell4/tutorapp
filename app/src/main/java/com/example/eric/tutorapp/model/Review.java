@@ -11,12 +11,12 @@ public class Review implements Serializable {
 
     private int stars;
     private String message;
-    private Date dateSubmitted;
+    private String dateSubmitted;
     private String author;
 
     public Review() {}
 
-    public Review(int stars, String message, Date dateSubmitted, String author) {
+    public Review(int stars, String message, String dateSubmitted, String author) {
         this.stars = stars;
         this.message = message;
         this.dateSubmitted = dateSubmitted;
@@ -39,11 +39,11 @@ public class Review implements Serializable {
         this.message = message;
     }
 
-    public Date getDateSubmitted() {
+    public String getDateSubmitted() {
         return dateSubmitted;
     }
 
-    public void setDateSubmitted(Date dateSubmitted) {
+    public void setDateSubmitted(String dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
     }
 
