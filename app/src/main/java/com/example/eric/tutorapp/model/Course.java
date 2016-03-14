@@ -45,6 +45,10 @@ public class Course implements Serializable {
         this.transcriptTitle = transcriptTitle;
     }
 
+    public String toSimpleString() {
+        return departmentName + " " + catalogNumber;
+    }
+
     public String toDescriptionString() {
         return departmentName + " " + catalogNumber + " - " + transcriptTitle;
     }

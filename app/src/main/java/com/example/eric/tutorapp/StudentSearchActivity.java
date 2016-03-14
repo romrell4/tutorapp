@@ -74,7 +74,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                 TutorRequest request = getRequestIfValid();
                 if (request != null) {
                     Log.d(TAG, "onClick: " + request);
-                    Firebase requestsRef = new Firebase(HomeActivity.BASE_URL + "requests");
+                    Firebase requestsRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
                     requestsRef.push().setValue(request);
 
                     Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
@@ -124,7 +124,7 @@ public class StudentSearchActivity extends AppCompatActivity {
         String building = buildingText.getText().toString();
         String message = messageText.getText().toString();
 
-        //Add request to the database
+        //Return new request
         return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message);
     }
 }

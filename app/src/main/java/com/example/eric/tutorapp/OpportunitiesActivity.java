@@ -1,7 +1,6 @@
 package com.example.eric.tutorapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +18,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +33,14 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
         final ListView opportunities = (ListView) findViewById(R.id.opportunities);
         final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
-
         opportunities.setAdapter(adapter);
         opportunities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(OpportunitiesActivity.this, );
-//                startActivity(intent);
+                Log.d(TAG, "onItemClick: Clicked!");
             }
         });
+
 
         final Firebase requestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
         requestRef.addValueEventListener(new ValueEventListener() {
@@ -49,13 +48,17 @@ public class OpportunitiesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 adapter.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    adapter.add(child.getValue(TutorRequest.class));
+                    TutorRequest request = child.getValue(TutorRequest.class);
+                    request.setId(child.getKey());
+                    adapter.add(request);
+                    Log.d(TAG, "onDataChange: " + request);
                 }
                 Log.d(TAG, "onDataChange: Got data");
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(FirebaseError firebaseError) {
+            }
         });
     }
 
@@ -95,8 +98,14 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.opportunity, parent, false);
             }
 
-            TextView text = (TextView) view.findViewById(R.id.text);
-            text.setText(getItem(position).getName());
+            TutorRequest request = getItem(position);
+
+            ((TextView) view.findViewById(R.id.nameText)).setText(request.getName());
+            ((TextView) view.findViewById(R.id.timeText)).setText(getResources().getString(R.string.timeFormat, "a few moments ago"));
+            ((TextView) view.findViewById(R.id.priceText)).setText(new DecimalFormat("'$'0.00").format(request.getPrice()));
+            ((TextView) view.findViewById(R.id.courseText)).setText(request.getCourse().toSimpleString());
+            ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding());
+
             return view;
         }
     }

@@ -47,7 +47,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable(TUTOR_INFO_ID, (Tutor) adapter.getItem(position));

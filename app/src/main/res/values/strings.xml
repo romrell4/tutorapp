@@ -24,6 +24,7 @@
     <string name="authorFormat">%s said:</string>
 
     <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
+    <string name="timeFormat"> - %s</string>
 
 
 </resources>

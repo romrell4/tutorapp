@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public class TutorRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private String id;
     private String phoneId;
     private String name;
     private Course course;
@@ -26,6 +27,14 @@ public class TutorRequest implements Serializable {
         this.price = price;
         this.building = building;
         this.message = message;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPhoneId() {
@@ -79,7 +88,8 @@ public class TutorRequest implements Serializable {
     @Override
     public String toString() {
         return "TutorRequest{" +
-                "phoneId='" + phoneId + '\'' +
+                "id='" + id + "'" +
+                ", phoneId='" + phoneId + '\'' +
                 ", name='" + name + '\'' +
                 ", course=" + course +
                 ", price=" + price +

@@ -28,7 +28,7 @@ public class AvailableTutorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_available_tutor);
 
         Intent incomingIntent = getIntent();

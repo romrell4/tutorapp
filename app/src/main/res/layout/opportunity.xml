@@ -1,13 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/text"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/leftContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/nameText"
+                    style="@style/OpportunityTextView"
+                    />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    style="@style/OpportunityTextView"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/priceText"
+                style="@style/OpportunityTextView"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rightContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end"
+                >
+
+                <TextView
+                    android:id="@+id/courseText"
+                    style="@style/OpportunityTextView"
+                    />
+
+                <TextView
+                    android:id="@+id/buildingText"
+                    style="@style/OpportunityTextView"
+                    />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_marginStart="5dp"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
