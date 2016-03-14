@@ -36,7 +36,7 @@ public class StudentSearchActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_student_search);
 
-        final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
+//        final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
 
         Firebase myCoursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
         myCoursesRef.addValueEventListener(new ValueEventListener() {
@@ -57,7 +57,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                 final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
                 courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.course_spinner_item, courseMap.keySet().toArray()));
 
-                dialog.dismiss();
+//                dialog.dismiss();
             }
 
             @Override
