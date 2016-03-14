@@ -146,8 +146,8 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             stars /= tutor.getReviews().size();
 
             ((TextView) view.findViewById(R.id.username)).setText(tutor.getUsername());
-            ((ImageView) view.findViewById(R.id.ratings)).setImageResource(Utils.getRatingImage(stars));
-            ((TextView) view.findViewById(R.id.reviewAmount)).setText(view.getResources().getString(R.string.reviewAmountFormat, tutor.getReviews().size()));
+            ((TextView) view.findViewById(R.id.ratings)).setText(view.getResources().getString(R.string.reviewAmountFormat, tutor.getReviews().size()));
+            ((TextView) view.findViewById(R.id.ratings)).setCompoundDrawablesRelativeWithIntrinsicBounds(Utils.getRatingImage(stars), 0, 0, 0);
             ((TextView) view.findViewById(R.id.major)).setText(tutor.getMajor());
 
             return view;
