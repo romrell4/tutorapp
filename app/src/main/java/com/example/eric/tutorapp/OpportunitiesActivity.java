@@ -64,14 +64,16 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
     private class OpportunityAdapter extends ArrayAdapter<TutorRequest> {
         private List<TutorRequest> opportunities = new ArrayList<>();
+        private int layout;
 
         public OpportunityAdapter(Context context, int resource) {
             super(context, resource);
+            this.layout = resource;
         }
 
         @Override
         public void clear() {
-            opportunities = new ArrayList<>();
+            opportunities.clear();
         }
 
         @Override
@@ -95,7 +97,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
             View view = convertView;
             if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.opportunity, parent, false);
+                view = inflater.inflate(layout, parent, false);
             }
 
             TutorRequest request = getItem(position);

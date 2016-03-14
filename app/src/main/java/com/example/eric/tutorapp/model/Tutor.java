@@ -9,6 +9,7 @@ import java.util.List;
 public class Tutor implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private String id;
     private String username;
     private String password;
     private String major;
@@ -24,6 +25,14 @@ public class Tutor implements Serializable {
         this.major = major;
         this.courses = courses;
         this.reviews = reviews;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -69,7 +78,8 @@ public class Tutor implements Serializable {
     @Override
     public String toString() {
         return "Tutor{" +
-                "username='" + username + '\'' +
+                "id='" + id + "'" +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", major='" + major + '\'' +
                 ", courses=" + courses +

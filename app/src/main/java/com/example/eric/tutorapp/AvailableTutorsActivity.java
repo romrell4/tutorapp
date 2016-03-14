@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,7 +30,7 @@ import java.util.List;
 
 public class AvailableTutorsActivity extends AppCompatActivity {
     private static final String TAG = "AvailableTutorsActivity";
-    public static final String TUTOR_INFO_ID = "com.tutorapp.tutorInfo";
+    public static final String TUTOR_ID = "com.tutorapp.tutorInfo";
     private TutorAdapter adapter;
 
     @Override
@@ -42,30 +41,30 @@ public class AvailableTutorsActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Available Tutors", "Please wait...");
 
-        adapter = new TutorAdapter(this, new ArrayList<Tutor>());
+        adapter = new TutorAdapter(this, R.layout.tutor);
         final ListView availableTutors = (ListView) findViewById(R.id.availableTutors);
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
                 Bundle extras = new Bundle();
-                extras.putSerializable(TUTOR_INFO_ID, (Tutor) adapter.getItem(position));
+                extras.putSerializable(TUTOR_ID, adapter.getItem(position).getId());
                 intent.putExtras(extras);
                 startActivity(intent);
             }
         });
+        availableTutors.setAdapter(adapter);
 
 
         final Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Tutor> tutors = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    tutors.add(child.getValue(Tutor.class));
+                    Tutor tutor = child.getValue(Tutor.class);
+                    tutor.setId(child.getKey());
+                    adapter.add(tutor);
                 }
-                adapter = new TutorAdapter(AvailableTutorsActivity.this, tutors);
-                availableTutors.setAdapter(adapter);
                 dialog.dismiss();
             }
 
@@ -93,23 +92,36 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!"));
     }
 
-    private static class TutorAdapter extends BaseAdapter {
-        private LayoutInflater inflater = null;
-        private List<Tutor> data;
+    private static class TutorAdapter extends ArrayAdapter<Tutor> {
+        private List<Tutor> tutors = new ArrayList<>();
+        private int layout;
 
-        public TutorAdapter(Context context, List<Tutor> data) {
-            this.data = data;
-            this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        public TutorAdapter(Context context, int resource) {
+            super(context, resource);
+            this.layout = resource;
+        }
+
+        @Override
+        public void add(Tutor object) {
+            tutors.add(object);
+            super.add(object);
+        }
+
+        @Override
+        public void clear() {
+            tutors.clear();
+            super.clear();
         }
 
         @Override
         public int getCount() {
-            return data.size();
+            return tutors.size();
         }
 
         @Override
-        public Object getItem(int position) {
-            return data.get(position);
+        public Tutor getItem(int position) {
+            return tutors.get(position);
         }
 
         @Override
@@ -121,11 +133,11 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if (view == null) {
-                view = inflater.inflate(R.layout.tutor, null);
+                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(layout, parent, false);
             }
 
-
-            Tutor tutor = data.get(position);
+            Tutor tutor = getItem(position);
 
             int stars = 0;
             for (Review review : tutor.getReviews()) {

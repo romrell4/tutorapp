@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,7 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.eric.tutorapp.model.Tutor;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +34,34 @@ public class AvailableTutorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_available_tutor);
 
         Intent incomingIntent = getIntent();
-        Tutor tutor = (Tutor) incomingIntent.getSerializableExtra(AvailableTutorsActivity.TUTOR_INFO_ID);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
-        toolbarText.setText(tutor.getUsername());
+        final String tutorId = incomingIntent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+
+        final Button confirmButton = (Button) findViewById(R.id.confirmButton);
+        confirmButton.setVisibility(View.INVISIBLE);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Pressed!");
+            }
+        });
+
+        Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors/" + tutorId);
+        tutorRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: Loaded! " + dataSnapshot);
+                Tutor tutor = dataSnapshot.getValue(Tutor.class);
+                tutor.setId(dataSnapshot.getKey());
+                ((TextView) findViewById(R.id.toolbarText)).setText(tutor.getUsername());
+                if (tutor.getUsername().equals("romrell4")) {
+                    confirmButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,14 +71,6 @@ public class AvailableTutorActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        Button confirmButton = (Button) findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Pressed!");
-            }
-        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
