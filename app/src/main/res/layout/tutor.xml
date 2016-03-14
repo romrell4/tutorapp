@@ -30,28 +30,17 @@
 
             />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/ratings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            >
+            android:drawableStart="@drawable/three_stars"
+            android:drawablePadding="5dp"
+            android:text="(9)"
+            />
 
-            <ImageView
-                android:id="@+id/ratings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/three_stars"
-                />
 
-            <TextView
-                android:id="@+id/reviewAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:text="(9)"
-                />
-        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
