@@ -60,12 +60,7 @@ public class MessageFragment extends Fragment {
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.chat_message);
 
         chatText = (EditText) view.findViewById(R.id.chatText);
-        chatText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                return event.getAction() == KeyEvent.ACTION_DOWN && sendChatMessage();
-            }
-        });
+        
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
