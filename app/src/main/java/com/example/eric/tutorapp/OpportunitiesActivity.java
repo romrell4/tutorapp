@@ -2,6 +2,7 @@ package com.example.eric.tutorapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class OpportunitiesActivity extends AppCompatActivity {
     private static final String TAG = "OpportunitiesActivity";
+    public static final String REQUEST_ID_TAG = "com.eric.opp_id";
     private Tutor loggedInTutor;
 
     private ProgressDialog dialog;
@@ -41,6 +43,10 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
         dialog = ProgressDialog.show(this, "Loading Opportunities", "Please wait...");
 
+        final ListView opportunities = (ListView) findViewById(R.id.opportunities);
+        final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
+        opportunities.setAdapter(adapter);
+
         Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -49,40 +55,37 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 loggedInTutor = firstTutor.getValue(Tutor.class);
                 loggedInTutor.setId(firstTutor.getKey());
                 Log.d(TAG, "onDataChange: User: " + loggedInTutor);
-                decrementDialogCountdown();
+
+                final Firebase requestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
+                requestRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        adapter.clear();
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            TutorRequest request = child.getValue(TutorRequest.class);
+                            request.setId(child.getKey());
+                            Log.d(TAG, "onDataChange: " + request);
+                            if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
+                                Intent intent = new Intent(OpportunitiesActivity.this, ControlPanelActivity.class);
+                                intent.putExtra(REQUEST_ID_TAG, request.getId());
+                                startActivity(intent);
+                            }
+                            adapter.add(request);
+                        }
+                        Log.d(TAG, "Completed Opportunity Fetch");
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
+                });
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
-        });
-
-        final ListView opportunities = (ListView) findViewById(R.id.opportunities);
-        final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
-        opportunities.setAdapter(adapter);
-
-        final Firebase requestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-        requestRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                adapter.clear();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    TutorRequest request = child.getValue(TutorRequest.class);
-                    request.setId(child.getKey());
-                    adapter.add(request);
-                }
-                Log.d(TAG, "Completed Opportunity Fetch");
-                decrementDialogCountdown();
+            public void onCancelled(FirebaseError firebaseError) {
             }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {}
         });
-    }
-
-    private void decrementDialogCountdown() {
-        if (dialogCountdown.decrementAndGet() == 0) {
-            dialog.dismiss();
-        }
     }
 
     private class OpportunityAdapter extends ArrayAdapter<TutorRequest> {
@@ -130,6 +133,10 @@ public class OpportunitiesActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.priceText)).setText(new DecimalFormat("'$'0.00").format(request.getPrice()));
             ((TextView) view.findViewById(R.id.courseText)).setText(request.getCourse().toSimpleString());
             ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding());
+
+            if (request.getInterestedTutors().contains(loggedInTutor)) {
+                ((CheckBox) view.findViewById(R.id.interestedCheckbox)).setChecked(true);
+            }
 
             final CheckBox checkbox = (CheckBox) view.findViewById(R.id.interestedCheckbox);
             checkbox.setOnClickListener(new View.OnClickListener() {
