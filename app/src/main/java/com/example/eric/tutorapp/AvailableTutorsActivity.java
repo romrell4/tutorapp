@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class AvailableTutorsActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Available Tutors", "Please wait...");
 
+        String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
+
         adapter = new TutorAdapter(this, R.layout.tutor);
         final ListView availableTutors = (ListView) findViewById(R.id.availableTutors);
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,6 +51,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
                 Bundle extras = new Bundle();
+                Log.d(TAG, adapter.getItem(position).getId());
                 extras.putSerializable(TUTOR_ID, adapter.getItem(position).getId());
                 intent.putExtras(extras);
                 startActivity(intent);
@@ -56,21 +60,19 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setAdapter(adapter);
 
 
-        final Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
+        final Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId + "/interestedTutors");
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Tutor tutor = child.getValue(Tutor.class);
-                    tutor.setId(child.getKey());
                     adapter.add(tutor);
                 }
                 dialog.dismiss();
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
 //        createTests();
     }
@@ -86,10 +88,13 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         reviews.add(new Review(1, "Sucks", "3/4/2016", "Ray"));
 
         Tutor tutor = new Tutor("zjoanne", "testpass", "CHEM", courses, reviews);
-        tutorRef.push().setValue(tutor);
+//        tutorRef.push().setValue(tutor);
+
+        List<Tutor> interestedTutors = new ArrayList<>();
+        interestedTutors.add(tutor);
 
         final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!"));
+        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors));
     }
 
     private static class TutorAdapter extends ArrayAdapter<Tutor> {
