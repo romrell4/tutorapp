@@ -31,6 +31,8 @@ public class OpportunitiesActivity extends AppCompatActivity {
     private static final String TAG = "OpportunitiesActivity";
     public static final String REQUEST_ID_TAG = "com.eric.opp_id";
     private Tutor loggedInTutor;
+    private Firebase tutorRequestRef;
+    private ValueEventListener tutorRequestRefListener;
 
     private ProgressDialog dialog;
     private final AtomicInteger dialogCountdown = new AtomicInteger(2);
@@ -56,8 +58,8 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 loggedInTutor.setId(firstTutor.getKey());
                 Log.d(TAG, "onDataChange: User: " + loggedInTutor);
 
-                final Firebase requestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-                requestRef.addValueEventListener(new ValueEventListener() {
+                tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
+                tutorRequestRefListener = tutorRequestRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         adapter.clear();
@@ -77,14 +79,12 @@ public class OpportunitiesActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                    }
+                    public void onCancelled(FirebaseError firebaseError) {}
                 });
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
     }
 
@@ -134,7 +134,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.courseText)).setText(request.getCourse().toSimpleString());
             ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding());
 
-            if (request.getInterestedTutors().contains(loggedInTutor)) {
+            if (request.getInterestedTutors() != null && request.getInterestedTutors().contains(loggedInTutor)) {
                 ((CheckBox) view.findViewById(R.id.interestedCheckbox)).setChecked(true);
             }
 
@@ -156,5 +156,13 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
             return view;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (tutorRequestRef != null && tutorRequestRefListener != null) {
+            tutorRequestRef.removeEventListener(tutorRequestRefListener);
+        }
+        super.onBackPressed();
     }
 }

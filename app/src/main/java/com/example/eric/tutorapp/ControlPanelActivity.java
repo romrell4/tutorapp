@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -19,7 +20,9 @@ public class ControlPanelActivity extends AppCompatActivity {
 
         final String requestId = getIntent().getStringExtra(OpportunitiesActivity.REQUEST_ID_TAG);
         final Firebase requestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + requestId);
-        Log.d(TAG, "onCreate: " + requestRef);
+
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText(requestId);
 
         Button acceptJob = (Button) findViewById(R.id.acceptJob);
         acceptJob.setOnClickListener(new View.OnClickListener() {

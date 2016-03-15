@@ -1,5 +1,6 @@
 package com.example.eric.tutorapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -34,8 +35,14 @@ public class AvailableTutorActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_available_tutor);
 
+        final ProgressDialog dialog = ProgressDialog.show(this, "Loading Tutor Information", "Please wait...");
+        Utils.initDialogCountdown(dialog, 2);
+
         final String tutorId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_ID);
         final String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+
+        Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors/" + tutorId);
+        final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
 
         final Button confirmButton = (Button) findViewById(R.id.confirmButton);
         confirmButton.setVisibility(View.INVISIBLE);
@@ -43,6 +50,7 @@ public class AvailableTutorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Accepted!");
+                tutorRequestRef.child("studentAccepted").setValue(true);
             }
         });
 
@@ -52,20 +60,17 @@ public class AvailableTutorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Rejected!");
+                removeTutorFromRequest(tutorId, tutorRequestId);
             }
         });
 
-        Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors/" + tutorId);
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: Loaded! " + dataSnapshot);
                 Tutor tutor = dataSnapshot.getValue(Tutor.class);
                 tutor.setId(dataSnapshot.getKey());
                 ((TextView) findViewById(R.id.toolbarText)).setText(tutor.getUsername());
-                if (tutor.getUsername().equals("romrell4")) {
-                    confirmButton.setVisibility(View.VISIBLE);
-                }
+                Utils.countdown();
             }
 
             @Override
@@ -73,18 +78,18 @@ public class AvailableTutorActivity extends AppCompatActivity {
             }
         });
 
-        Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
         tutorRequestRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 TutorRequest request = dataSnapshot.getValue(TutorRequest.class);
-                if (request.getTutorAccepted()) {
+                if (request.getTutorAccepted() != null && request.getTutorAccepted()) {
                     confirmButton.setVisibility(View.VISIBLE);
                     rejectButton.setVisibility(View.VISIBLE);
                 } else {
                     confirmButton.setVisibility(View.INVISIBLE);
                     rejectButton.setVisibility(View.INVISIBLE);
                 }
+                Utils.countdown();
             }
 
             @Override
@@ -99,6 +104,33 @@ public class AvailableTutorActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void removeTutorFromRequest(final String tutorId, String tutorRequestId) {
+        final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+        tutorRequestRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: " + dataSnapshot);
+                for (DataSnapshot child : dataSnapshot.child("interestedTutors").getChildren()) {
+                    Tutor tutor = child.getValue(Tutor.class);
+                    Log.d(TAG, "onDataChange: " + tutor);
+                    if (tutorId.equals(tutor.getId())) {
+                        Log.d(TAG, "onDataChange: Deleting " + child.getKey());
+
+                        tutorRequestRef.child("activeTutorId").removeValue();
+                        tutorRequestRef.child("tutorAccepted").removeValue();
+                        tutorRequestRef.child("studentAccepted").removeValue();
+                        tutorRequestRef.child("interestedTutors").child(child.getKey()).removeValue();
+                        onBackPressed();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
