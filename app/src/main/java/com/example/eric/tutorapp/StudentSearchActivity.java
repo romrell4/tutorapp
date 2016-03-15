@@ -129,6 +129,6 @@ public class StudentSearchActivity extends AppCompatActivity {
         String message = messageText.getText().toString();
 
         //Return new request
-        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null);
+        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null, null);
     }
 }

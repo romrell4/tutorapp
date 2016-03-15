@@ -41,6 +41,13 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_available_tutors);
 
+//        createTests();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Available Tutors", "Please wait...");
 
         final String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
@@ -50,8 +57,12 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+                String tutorId = adapter.getItem(position).getId();
+                tutorRequestRef.child("activeTutorId").setValue(tutorId);
+
                 Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
-                intent.putExtra(TUTOR_ID, adapter.getItem(position).getId());
+                intent.putExtra(TUTOR_ID, tutorId);
                 intent.putExtra(TUTOR_REQUEST_ID, tutorRequestId);
                 startActivity(intent);
             }
@@ -71,9 +82,15 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(FirebaseError firebaseError) {
+            }
         });
-//        createTests();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: Resume");
+        super.onResume();
     }
 
     private void createTests() {
@@ -87,13 +104,13 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         reviews.add(new Review(1, "Sucks", "3/4/2016", "Ray"));
 
         Tutor tutor = new Tutor("zjoanne", "testpass", "CHEM", courses, reviews);
-//        tutorRef.push().setValue(tutor);
+        tutorRef.push().setValue(tutor);
 
         List<Tutor> interestedTutors = new ArrayList<>();
         interestedTutors.add(tutor);
 
         final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors, null, null));
+        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors, null, null, null));
     }
 
     private static class TutorAdapter extends ArrayAdapter<Tutor> {

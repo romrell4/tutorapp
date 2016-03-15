@@ -22,11 +22,12 @@ public class TutorRequest implements Serializable {
     private List<Tutor> interestedTutors;
     private String activeTutorId;
     private Boolean tutorAccepted;
+    private Boolean studentAccepted;
 
     public TutorRequest() {
     }
 
-    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted) {
+    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted, Boolean studentAccepted) {
         this.phoneId = phoneId;
         this.name = name;
         this.course = course;
@@ -36,6 +37,7 @@ public class TutorRequest implements Serializable {
         this.interestedTutors = interestedTutors;
         this.activeTutorId = activeTutorId;
         this.tutorAccepted = tutorAccepted;
+        this.studentAccepted = studentAccepted;
     }
 
     public String getId() {
@@ -129,6 +131,14 @@ public class TutorRequest implements Serializable {
         this.tutorAccepted = tutorAccepted;
     }
 
+    public Boolean getStudentAccepted() {
+        return studentAccepted;
+    }
+
+    public void setStudentAccepted(Boolean studentAccepted) {
+        this.studentAccepted = studentAccepted;
+    }
+
     @Override
     public String toString() {
         return "TutorRequest{" +
@@ -139,9 +149,10 @@ public class TutorRequest implements Serializable {
                 ", price=" + price +
                 ", building='" + building + '\'' +
                 ", message='" + message + '\'' +
-                ", interestedTutors=" + Arrays.toString(interestedTutors.toArray()) +
+                ", interestedTutors=" + ((interestedTutors == null) ? "null" : Arrays.toString(interestedTutors.toArray())) +
                 ", activeTutorId='" + activeTutorId + "'" +
                 ", tutorAccepted=" + tutorAccepted +
+                ", studentAccepted=" + studentAccepted +
                 '}';
     }
 }
