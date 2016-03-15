@@ -32,6 +32,7 @@ import java.util.List;
 public class AvailableTutorsActivity extends AppCompatActivity {
     private static final String TAG = "AvailableTutorsActivity";
     public static final String TUTOR_ID = "com.tutorapp.tutorInfo";
+    public static final String TUTOR_REQUEST_ID = "com.tutorapp.tutorRequestId";
     private TutorAdapter adapter;
 
     @Override
@@ -42,7 +43,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Available Tutors", "Please wait...");
 
-        String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
+        final String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
 
         adapter = new TutorAdapter(this, R.layout.tutor);
         final ListView availableTutors = (ListView) findViewById(R.id.availableTutors);
@@ -50,10 +51,8 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
-                Bundle extras = new Bundle();
-                Log.d(TAG, adapter.getItem(position).getId());
-                extras.putSerializable(TUTOR_ID, adapter.getItem(position).getId());
-                intent.putExtras(extras);
+                intent.putExtra(TUTOR_ID, adapter.getItem(position).getId());
+                intent.putExtra(TUTOR_REQUEST_ID, tutorRequestId);
                 startActivity(intent);
             }
         });
@@ -94,7 +93,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         interestedTutors.add(tutor);
 
         final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors));
+        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors, null, null));
     }
 
     private static class TutorAdapter extends ArrayAdapter<Tutor> {

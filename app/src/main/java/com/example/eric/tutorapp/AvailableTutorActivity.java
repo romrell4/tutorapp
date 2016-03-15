@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.eric.tutorapp.model.Tutor;
+import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -33,15 +34,24 @@ public class AvailableTutorActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_available_tutor);
 
-        Intent incomingIntent = getIntent();
-        final String tutorId = incomingIntent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        final String tutorId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        final String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
 
         final Button confirmButton = (Button) findViewById(R.id.confirmButton);
         confirmButton.setVisibility(View.INVISIBLE);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Pressed!");
+                Log.d(TAG, "onClick: Accepted!");
+            }
+        });
+
+        final Button rejectButton = (Button) findViewById(R.id.rejectButton);
+        rejectButton.setVisibility(View.INVISIBLE);
+        rejectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Rejected!");
             }
         });
 
@@ -61,6 +71,24 @@ public class AvailableTutorActivity extends AppCompatActivity {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
             }
+        });
+
+        Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+        tutorRequestRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TutorRequest request = dataSnapshot.getValue(TutorRequest.class);
+                if (request.getTutorAccepted()) {
+                    confirmButton.setVisibility(View.VISIBLE);
+                    rejectButton.setVisibility(View.VISIBLE);
+                } else {
+                    confirmButton.setVisibility(View.INVISIBLE);
+                    rejectButton.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {}
         });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

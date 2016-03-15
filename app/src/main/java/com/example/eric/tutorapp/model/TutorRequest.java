@@ -3,6 +3,7 @@ package com.example.eric.tutorapp.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,11 +20,13 @@ public class TutorRequest implements Serializable {
     private String building;
     private String message;
     private List<Tutor> interestedTutors;
+    private String activeTutorId;
+    private Boolean tutorAccepted;
 
     public TutorRequest() {
     }
 
-    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors) {
+    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted) {
         this.phoneId = phoneId;
         this.name = name;
         this.course = course;
@@ -31,6 +34,8 @@ public class TutorRequest implements Serializable {
         this.building = building;
         this.message = message;
         this.interestedTutors = interestedTutors;
+        this.activeTutorId = activeTutorId;
+        this.tutorAccepted = tutorAccepted;
     }
 
     public String getId() {
@@ -108,6 +113,22 @@ public class TutorRequest implements Serializable {
         this.interestedTutors.remove(interestedTutor);
     }
 
+    public String getActiveTutorId() {
+        return activeTutorId;
+    }
+
+    public void setActiveTutorId(String activeTutorId) {
+        this.activeTutorId = activeTutorId;
+    }
+
+    public Boolean getTutorAccepted() {
+        return tutorAccepted;
+    }
+
+    public void setTutorAccepted(Boolean tutorAccepted) {
+        this.tutorAccepted = tutorAccepted;
+    }
+
     @Override
     public String toString() {
         return "TutorRequest{" +
@@ -118,6 +139,9 @@ public class TutorRequest implements Serializable {
                 ", price=" + price +
                 ", building='" + building + '\'' +
                 ", message='" + message + '\'' +
+                ", interestedTutors=" + Arrays.toString(interestedTutors.toArray()) +
+                ", activeTutorId='" + activeTutorId + "'" +
+                ", tutorAccepted=" + tutorAccepted +
                 '}';
     }
 }
