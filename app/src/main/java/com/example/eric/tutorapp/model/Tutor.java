@@ -27,6 +27,15 @@ public class Tutor implements Serializable {
         this.reviews = reviews;
     }
 
+    public Tutor(String id, String username, String password, String major, List<Course> courses, List<Review> reviews) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.major = major;
+        this.courses = courses;
+        this.reviews = reviews;
+    }
+
     public String getId() {
         return id;
     }
@@ -85,5 +94,10 @@ public class Tutor implements Serializable {
                 ", courses=" + courses +
                 ", reviews=" + reviews +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Tutor && this.id.equals(((Tutor) o).id);
     }
 }

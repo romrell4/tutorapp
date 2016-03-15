@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.eric.tutorapp.model.Course;
+import com.example.eric.tutorapp.model.Tutor;
 import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -22,6 +23,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,8 @@ public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
     private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
     private Map<String, Course> courseMap;
+
+    public static final String REQUEST_ID = "com.tutorapp.requestId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +77,18 @@ public class StudentSearchActivity extends AppCompatActivity {
                 //Validate data
                 TutorRequest request = getRequestIfValid();
                 if (request != null) {
-                    Log.d(TAG, "onClick: " + request);
                     Firebase requestsRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-                    requestsRef.push().setValue(request);
+                    Firebase newRequestRef = requestsRef.push();
+                    newRequestRef.setValue(request);
 
                     Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
-                    intent.putExtra("com.tutorapp.request", request);
+                    intent.putExtra(REQUEST_ID, newRequestRef.getKey());
                     startActivity(intent);
                 }
 
                 //For testing only...
                 Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
-                intent.putExtra("com.tutorapp.request", request);
+                intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
                 startActivity(intent);
             }
         });
@@ -125,6 +129,6 @@ public class StudentSearchActivity extends AppCompatActivity {
         String message = messageText.getText().toString();
 
         //Return new request
-        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message);
+        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, new ArrayList<Tutor>());
     }
 }

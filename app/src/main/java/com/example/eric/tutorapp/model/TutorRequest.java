@@ -2,6 +2,8 @@ package com.example.eric.tutorapp.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by eric on 3/1/16.
@@ -16,17 +18,19 @@ public class TutorRequest implements Serializable {
     private BigDecimal price;
     private String building;
     private String message;
+    private List<Tutor> interestedTutors;
 
     public TutorRequest() {
     }
 
-    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message) {
+    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors) {
         this.phoneId = phoneId;
         this.name = name;
         this.course = course;
         this.price = price;
         this.building = building;
         this.message = message;
+        this.interestedTutors = interestedTutors;
     }
 
     public String getId() {
@@ -83,6 +87,25 @@ public class TutorRequest implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public List<Tutor> getInterestedTutors() {
+        return interestedTutors;
+    }
+
+    public void setInterestedTutors(List<Tutor> interestedTutors) {
+        this.interestedTutors = interestedTutors;
+    }
+
+    public void addInterestedTutor(Tutor interestedTutor) {
+        if (this.interestedTutors == null) {
+            this.interestedTutors = new ArrayList<>();
+        }
+        this.interestedTutors.add(interestedTutor);
+    }
+
+    public void removeInterestedTutor(Tutor interestedTutor) {
+        this.interestedTutors.remove(interestedTutor);
     }
 
     @Override
