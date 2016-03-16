@@ -87,12 +87,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume: Resume");
-        super.onResume();
-    }
-
     private void createTests() {
         final Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
         List<Course> courses = new ArrayList<>();
