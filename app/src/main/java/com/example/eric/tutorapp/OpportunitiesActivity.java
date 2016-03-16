@@ -2,7 +2,7 @@ package com.example.eric.tutorapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eric.tutorapp.model.Tutor;
 import com.example.eric.tutorapp.model.TutorRequest;
@@ -25,28 +26,48 @@ import com.firebase.client.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class OpportunitiesActivity extends AppCompatActivity {
     private static final String TAG = "OpportunitiesActivity";
     public static final String REQUEST_ID_TAG = "com.eric.opp_id";
     private Tutor loggedInTutor;
-    private Firebase tutorRequestRef;
+    private Firebase tutorRequestsRef;
     private ValueEventListener tutorRequestRefListener;
-
-    private ProgressDialog dialog;
-    private final AtomicInteger dialogCountdown = new AtomicInteger(2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_opportunities);
+    }
 
-        dialog = ProgressDialog.show(this, "Loading Opportunities", "Please wait...");
+    @Override
+    public void onBackPressed() {
+        if (tutorRequestsRef != null && tutorRequestRefListener != null) {
+            tutorRequestsRef.removeEventListener(tutorRequestRefListener);
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final ProgressDialog dialog = ProgressDialog.show(this, "Loading Opportunities", "Please wait...");
+
+        final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
 
         final ListView opportunities = (ListView) findViewById(R.id.opportunities);
-        final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
+        opportunities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TutorRequest tutorRequest = adapter.getItem(position);
+                if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
+                    Firebase tutorRequestRef = tutorRequestsRef.child(tutorRequest.getId());
+                    tutorRequestRef.child("tutorAccepted").setValue(true);
+                    Toast.makeText(getApplicationContext(), "You have just accepted the request from " + tutorRequest.getName(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         opportunities.setAdapter(adapter);
 
         Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
@@ -58,20 +79,14 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 loggedInTutor.setId(firstTutor.getKey());
                 Log.d(TAG, "onDataChange: User: " + loggedInTutor);
 
-                tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-                tutorRequestRefListener = tutorRequestRef.addValueEventListener(new ValueEventListener() {
+                tutorRequestsRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
+                tutorRequestRefListener = tutorRequestsRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         adapter.clear();
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             TutorRequest request = child.getValue(TutorRequest.class);
                             request.setId(child.getKey());
-                            Log.d(TAG, "onDataChange: " + request);
-                            if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
-                                Intent intent = new Intent(OpportunitiesActivity.this, ControlPanelActivity.class);
-                                intent.putExtra(REQUEST_ID_TAG, request.getId());
-                                startActivity(intent);
-                            }
                             adapter.add(request);
                         }
                         Log.d(TAG, "Completed Opportunity Fetch");
@@ -79,12 +94,14 @@ public class OpportunitiesActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(FirebaseError firebaseError) {}
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
                 });
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(FirebaseError firebaseError) {
+            }
         });
     }
 
@@ -134,6 +151,10 @@ public class OpportunitiesActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.courseText)).setText(request.getCourse().toSimpleString());
             ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding());
 
+            if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
+                view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_grey));
+            }
+
             if (request.getInterestedTutors() != null && request.getInterestedTutors().contains(loggedInTutor)) {
                 ((CheckBox) view.findViewById(R.id.interestedCheckbox)).setChecked(true);
             }
@@ -148,6 +169,9 @@ public class OpportunitiesActivity extends AppCompatActivity {
                     if (checkbox.isChecked()) {
                         request.addInterestedTutor(loggedInTutor);
                     } else {
+                        if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
+                            request.setActiveTutorId(null);
+                        }
                         request.removeInterestedTutor(loggedInTutor);
                     }
                     tutorRequestRef.setValue(request);
@@ -156,13 +180,5 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
             return view;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (tutorRequestRef != null && tutorRequestRefListener != null) {
-            tutorRequestRef.removeEventListener(tutorRequestRefListener);
-        }
-        super.onBackPressed();
     }
 }
