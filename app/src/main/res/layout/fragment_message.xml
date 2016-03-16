@@ -15,6 +15,13 @@
 
     </ListView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/messageBar"
+        android:background="@color/grey"
+        />
+
     <RelativeLayout
         android:id="@+id/messageBar"
         android:layout_width="wrap_content"
