@@ -25,6 +25,7 @@
 
         <EditText
             android:id="@+id/chatText"
+            android:inputType="textCapSentences"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="-4dp"

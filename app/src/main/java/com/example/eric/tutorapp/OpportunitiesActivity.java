@@ -153,10 +153,14 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
             if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
                 view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_grey));
+            } else {
+                view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
             }
 
             if (request.getInterestedTutors() != null && request.getInterestedTutors().contains(loggedInTutor)) {
                 ((CheckBox) view.findViewById(R.id.interestedCheckbox)).setChecked(true);
+            } else {
+                ((CheckBox) view.findViewById(R.id.interestedCheckbox)).setChecked(false);
             }
 
             final CheckBox checkbox = (CheckBox) view.findViewById(R.id.interestedCheckbox);
