@@ -40,8 +40,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_available_tutors);
-
-//        createTests();
     }
 
     @Override
@@ -86,26 +84,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-    }
-
-    private void createTests() {
-        final Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
-        List<Course> courses = new ArrayList<>();
-        courses.add(new Course("CHEM", "111", "Intro to Chemistry"));
-        courses.add(new Course("CHEM", "112", "Intro to Chemistry (2)"));
-
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(new Review(2, "Not great...", "1/6/2016", "Mike"));
-        reviews.add(new Review(1, "Sucks", "3/4/2016", "Ray"));
-
-        Tutor tutor = new Tutor("zjoanne", "testpass", "CHEM", courses, reviews);
-        tutorRef.push().setValue(tutor);
-
-        List<Tutor> interestedTutors = new ArrayList<>();
-        interestedTutors.add(tutor);
-
-        final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests");
-        tutorRequestRef.push().setValue(new TutorRequest("testId", "Eric", new Course("C S", "235", "Data Structures"), new BigDecimal(25), "TMCB", "Help!", interestedTutors, null, null, null));
     }
 
     private static class TutorAdapter extends ArrayAdapter<Tutor> {
