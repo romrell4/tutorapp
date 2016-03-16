@@ -84,12 +84,13 @@ public class StudentSearchActivity extends AppCompatActivity {
                     Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
                     intent.putExtra(REQUEST_ID, newRequestRef.getKey());
                     startActivity(intent);
+                } else {
+                    //For testing only...
+                    Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
+                    intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
+                    startActivity(intent);
                 }
 
-                //For testing only...
-                Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
-                intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
-                startActivity(intent);
             }
         });
     }
