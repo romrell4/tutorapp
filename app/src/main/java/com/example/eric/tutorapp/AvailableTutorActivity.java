@@ -106,6 +106,16 @@ public class AvailableTutorActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    public void onBackPressed() {
+        final String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+        tutorRequestRef.child("activeTutorId").removeValue();
+        tutorRequestRef.child("tutorAccepted").removeValue();
+        tutorRequestRef.child("studentAccepted").removeValue();
+        super.onBackPressed();
+    }
+
     private void removeTutorFromRequest(final String tutorId, String tutorRequestId) {
         final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
         tutorRequestRef.addValueEventListener(new ValueEventListener() {
