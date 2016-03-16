@@ -74,6 +74,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Tutor tutor = child.getValue(Tutor.class);
                     adapter.add(tutor);
