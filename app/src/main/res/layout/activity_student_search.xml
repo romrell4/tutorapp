@@ -25,29 +25,32 @@
         style="@style/FormEditText"
         />
 
-    <AutoCompleteTextView
-        android:id="@+id/courseText"
-        android:layout_below="@+id/nameText"
-        android:inputType="textCapCharacters"
-        android:popupBackground="@color/light_grey"
-        android:hint="@string/courseHint"
-        style="@style/FormEditText"
-        />
-
     <EditText
         android:id="@+id/priceText"
-        android:layout_below="@+id/courseText"
+        android:layout_below="@+id/nameText"
         android:inputType="numberDecimal"
         android:textColor="@color/black"
         android:hint="@string/priceHint"
         style="@style/FormEditText"
         />
 
-    <EditText
-        android:id="@+id/buildingText"
+    <AutoCompleteTextView
+        android:id="@+id/courseText"
         android:layout_below="@+id/priceText"
+        android:inputType="textCapCharacters"
+        android:popupBackground="@color/light_grey"
+        android:hint="@string/courseHint"
+        android:completionThreshold="1"
+        style="@style/FormEditText"
+        />
+
+    <AutoCompleteTextView
+        android:id="@+id/buildingText"
+        android:layout_below="@+id/courseText"
         android:inputType="textCapSentences"
+        android:popupBackground="@color/light_grey"
         android:hint="@string/buildingHint"
+        android:completionThreshold="1"
         style="@style/FormEditText"
         />
 

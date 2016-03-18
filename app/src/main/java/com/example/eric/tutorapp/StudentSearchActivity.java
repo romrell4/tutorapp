@@ -1,13 +1,10 @@
 package com.example.eric.tutorapp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -15,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.eric.tutorapp.model.Course;
-import com.example.eric.tutorapp.model.Tutor;
 import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,12 +21,14 @@ import com.firebase.client.ValueEventListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
     private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
-    private Map<String, Course> courseMap;
+    private Map<String, Course> courseMap = new HashMap<>();
+    private List<String> buildingList = new ArrayList<>();
 
     public static final String REQUEST_ID = "com.tutorapp.requestId";
 
@@ -40,34 +38,41 @@ public class StudentSearchActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_student_search);
 
-//        final ProgressDialog dialog = ProgressDialog.show(StudentSearchActivity.this, "Loading Courses", "Please wait...");
-
-        Firebase myCoursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
-        myCoursesRef.addValueEventListener(new ValueEventListener() {
+        Firebase coursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
+        coursesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                courseMap = new HashMap<>();
-                Iterable<DataSnapshot> courses = dataSnapshot.getChildren();
-                for (DataSnapshot department : courses) {
+                courseMap.clear();
+                for (DataSnapshot department : dataSnapshot.getChildren()) {
                     for (DataSnapshot course : department.getChildren()) {
-
                         Course courseObject = new Course(department.getKey(), course.child("catalogNumber").getValue().toString(), course.child("transcriptTitle").getValue().toString());
                         courseMap.put(courseObject.toDescriptionString(), courseObject);
                     }
                 }
 
-                Log.d(TAG, "onDataChange: Got all info!");
-
                 final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
-                courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.course_spinner_item, courseMap.keySet().toArray()));
-
-//                dialog.dismiss();
+                courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.spinner_item, courseMap.keySet().toArray()));
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(FirebaseError firebaseError) {}
+        });
 
+        Firebase buildingsRef = new Firebase(HomeActivity.BASE_URL + "buildings");
+        buildingsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                buildingList.clear();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    buildingList.add(child.getKey() + " " + child.getValue());
+                }
+
+                final AutoCompleteTextView buildingText = (AutoCompleteTextView) findViewById(R.id.buildingText);
+                buildingText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.spinner_item, buildingList));
             }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {}
         });
 
         Button searchButton = (Button) findViewById(R.id.searchButton);
