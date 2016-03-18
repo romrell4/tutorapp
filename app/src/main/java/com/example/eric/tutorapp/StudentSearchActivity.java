@@ -64,7 +64,7 @@ public class StudentSearchActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 buildingList.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    buildingList.add(child.getKey() + " " + child.getValue());
+                    buildingList.add(child.getKey() + " - " + child.getValue());
                 }
 
                 final AutoCompleteTextView buildingText = (AutoCompleteTextView) findViewById(R.id.buildingText);
