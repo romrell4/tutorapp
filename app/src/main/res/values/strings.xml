@@ -13,6 +13,7 @@
     <string name="notesHint">e.g. "I only have 10 minutes… Who knows about photosynthesis?"</string>
     <string name="searchButtonText">Find a Tutor</string>
     <string name="pendingTutorsText">36 tutors still haven\'t replied…</string>
+    <string name="loadingText">Please allow a few minutes for tutors to see and accept your request.</string>
 
     <string name="availableTutorsToolbarTitle">Available Tutors</string>
     <string name="tutorImage">Tutor Image</string>

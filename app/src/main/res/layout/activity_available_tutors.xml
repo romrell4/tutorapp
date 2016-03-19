@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white"
     tools:context="com.example.eric.tutorapp.AvailableTutorsActivity">
 
@@ -20,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="2dp"
-        android:layout_below="@+id/toolbar"
         android:background="@color/light_grey"
         android:text="@string/pendingTutorsText"
         android:textColor="@color/black"
@@ -31,6 +31,17 @@
         android:id="@+id/availableTutors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pendingTutors" />
+        />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:text="@string/loadingText"
+        />
+
+</LinearLayout>
