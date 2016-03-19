@@ -145,8 +145,8 @@ public class AvailableTutorActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MessageFragment(), "Messages");
         adapter.addFragment(new ReviewFragment(), "Reviews");
+        adapter.addFragment(new MessageFragment(), "Messages");
         viewPager.setAdapter(adapter);
     }
 

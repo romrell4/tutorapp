@@ -77,6 +77,8 @@ public class AvailableTutorsActivity extends AppCompatActivity {
                     Tutor tutor = child.getValue(Tutor.class);
                     adapter.add(tutor);
                 }
+
+                findViewById(R.id.loadingText).setVisibility(adapter.getCount() > 0 ? View.INVISIBLE : View.VISIBLE);
                 dialog.dismiss();
             }
 

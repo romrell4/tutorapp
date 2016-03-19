@@ -9,74 +9,74 @@
     tools:context="com.example.eric.tutorapp.StudentSearchActivity"
     >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/ToolBar">
-        <TextView
-            android:text="@string/studentSearchToolbarTitle"
-            style="@style/ToolBarText" />
-    </android.support.v7.widget.Toolbar>
-
-    <EditText
-        android:id="@+id/nameText"
-        android:layout_below="@id/toolbar"
-        android:inputType="textCapSentences"
-        android:hint="@string/nameHint"
-        style="@style/FormEditText"
-        />
-
-    <EditText
-        android:id="@+id/priceText"
-        android:layout_below="@+id/nameText"
-        android:inputType="numberDecimal"
-        android:textColor="@color/black"
-        android:hint="@string/priceHint"
-        style="@style/FormEditText"
-        />
-
-    <AutoCompleteTextView
-        android:id="@+id/courseText"
-        android:layout_below="@+id/priceText"
-        android:inputType="textCapCharacters"
-        android:popupBackground="@color/light_grey"
-        android:hint="@string/courseHint"
-        android:completionThreshold="1"
-        style="@style/FormEditText"
-        />
-
-    <AutoCompleteTextView
-        android:id="@+id/buildingText"
-        android:layout_below="@+id/courseText"
-        android:inputType="textCapSentences"
-        android:popupBackground="@color/light_grey"
-        android:hint="@string/buildingHint"
-        android:completionThreshold="1"
-        style="@style/FormEditText"
-        />
-
-    <TextView
-        android:id="@+id/messageBoxTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buildingText"
-        android:layout_marginTop="10dp"
-        android:text="@string/messageBoxTitle"
-        android:textColor="@color/black"
-        android:layout_marginStart="10dp"
-        />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/notesText"
-        android:layout_below="@id/messageBoxTitle"
-        android:inputType="textMultiLine|textCapSentences"
-        android:lines="5"
-        android:gravity="top|start"
-        android:hint="@string/notesHint"
-        android:background="@drawable/edit_text_bordered"
-        android:layout_margin="8dp"
-        android:padding="5dp"
-        style="@style/FormEditText"
-        />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolBar">
+            <TextView
+                android:text="@string/studentSearchToolbarTitle"
+                style="@style/ToolBarText" />
+        </android.support.v7.widget.Toolbar>
+
+        <EditText
+            android:id="@+id/nameText"
+            android:inputType="textCapSentences"
+            android:hint="@string/nameHint"
+            style="@style/FormEditText"
+            />
+
+        <EditText
+            android:id="@+id/priceText"
+            android:inputType="numberDecimal"
+            android:textColor="@color/black"
+            android:hint="@string/priceHint"
+            style="@style/FormEditText"
+            />
+
+        <AutoCompleteTextView
+            android:id="@+id/courseText"
+            android:inputType="textCapCharacters"
+            android:popupBackground="@color/light_grey"
+            android:hint="@string/courseHint"
+            android:completionThreshold="1"
+            style="@style/FormEditText"
+            />
+
+        <AutoCompleteTextView
+            android:id="@+id/buildingText"
+            android:inputType="textCapSentences"
+            android:popupBackground="@color/light_grey"
+            android:hint="@string/buildingHint"
+            android:completionThreshold="1"
+            style="@style/FormEditText"
+            />
+
+        <TextView
+            android:id="@+id/messageBoxTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/messageBoxTitle"
+            android:textColor="@color/black"
+            android:layout_marginStart="10dp"
+            />
+
+        <EditText
+            android:id="@+id/notesText"
+            android:inputType="textMultiLine|textCapSentences"
+            android:lines="5"
+            android:gravity="top|start"
+            android:hint="@string/notesHint"
+            android:background="@drawable/edit_text_bordered"
+            android:layout_margin="8dp"
+            android:padding="5dp"
+            style="@style/FormEditText"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/searchButton"
