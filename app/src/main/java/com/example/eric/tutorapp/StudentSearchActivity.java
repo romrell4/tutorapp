@@ -91,7 +91,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 //                else {
-//                    For testing only...
+                    //For testing only...
 //                    Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
 //                    intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
 //                    startActivity(intent);
@@ -135,6 +135,6 @@ public class StudentSearchActivity extends AppCompatActivity {
         String message = messageText.getText().toString();
 
         //Return new request
-        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null, null);
+        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null, null, null);
     }
 }
