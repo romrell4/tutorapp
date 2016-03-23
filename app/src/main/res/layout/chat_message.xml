@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content" >
+              android:id="@+id/rowContainer"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              android:gravity="end"
+    >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/singleMessageContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bubble_right"
+        android:padding="5dp"
+        >
 
         <TextView
             android:id="@+id/singleMessage"
@@ -14,9 +21,32 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@android:color/primary_text_light" />
-    </LinearLayout>
+            android:text="ROMRELL4 has agreed to help! If you would like to accept his help, please indicate below"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:id="@+id/acceptAndRejectLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/singleMessage"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"
+            >
+
+            <Button
+                android:id="@+id/acceptButton"
+                android:layout_marginEnd="30dp"
+                android:background="@color/green"
+                android:text="@string/acceptButtonText"
+                style="@style/MessageButton"
+                />
+            <Button
+                android:id="@+id/rejectButton"
+                android:background="@color/red"
+                android:text="@string/rejectButtonText"
+                style="@style/MessageButton"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
