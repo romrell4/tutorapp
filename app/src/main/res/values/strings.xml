@@ -26,6 +26,8 @@
 
     <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
     <string name="timeFormat"> - %s</string>
+    <string name="acceptButtonText">Accept</string>
+    <string name="rejectButtonText">Reject</string>
 
 
 </resources>

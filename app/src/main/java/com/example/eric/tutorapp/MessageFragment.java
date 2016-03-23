@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.eric.tutorapp.model.ChatMessage;
@@ -32,8 +32,6 @@ public class MessageFragment extends Fragment {
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
-    private Button buttonSend;
-    private Intent intent;
     private boolean side = false;
 
     public MessageFragment() {
@@ -44,18 +42,17 @@ public class MessageFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private boolean sendChatMessage(){
+    private void sendChatMessage(){
         chatArrayAdapter.add(new ChatMessage(chatText.getText().toString(), side));
         chatText.setText("");
         side = !side;
-        return true;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
 
-        buttonSend = (Button) view.findViewById(R.id.sendButton);
+        Button buttonSend = (Button) view.findViewById(R.id.sendButton);
         listView = (ListView) view.findViewById(R.id.messages);
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.chat_message);
 
@@ -110,13 +107,20 @@ public class MessageFragment extends Fragment {
                 LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.chat_message, parent, false);
             }
-            LinearLayout singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
             ChatMessage chatMessage = getItem(position);
+
             TextView chatText = (TextView) row.findViewById(R.id.singleMessage);
             chatText.setText(chatMessage.getText());
-            chatText.setBackgroundResource(chatMessage.isLeft() ? R.drawable.bubble_left : R.drawable.bubble_right);
-            chatText.setTextColor(chatMessage.isLeft() ? ContextCompat.getColor(getContext(), R.color.black) :ContextCompat.getColor(getContext(), R.color.white));
-            singleMessageContainer.setGravity(chatMessage.isLeft() ? Gravity.START : Gravity.END);
+            chatText.setTextColor(chatMessage.isLeft() ? ContextCompat.getColor(getContext(), R.color.black) : ContextCompat.getColor(getContext(), R.color.white));
+
+            RelativeLayout singleMessageContainer = (RelativeLayout) row.findViewById(R.id.singleMessageContainer);
+            singleMessageContainer.setBackgroundResource(chatMessage.isLeft() ? R.drawable.bubble_left : R.drawable.bubble_right);
+
+            LinearLayout rowContainer = (LinearLayout) row.findViewById(R.id.rowContainer);
+            rowContainer.setGravity(chatMessage.isLeft() ? Gravity.START : Gravity.END);
+
+            LinearLayout acceptAndRejectLayout = (LinearLayout) row.findViewById(R.id.acceptAndRejectLayout);
+            acceptAndRejectLayout.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
             return row;
         }
     }
