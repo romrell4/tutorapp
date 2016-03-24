@@ -1,19 +1,11 @@
 package com.example.eric.tutorapp;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.example.eric.tutorapp.model.Course;
-import com.example.eric.tutorapp.model.TutorRequest;
-
-import java.math.BigDecimal;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";

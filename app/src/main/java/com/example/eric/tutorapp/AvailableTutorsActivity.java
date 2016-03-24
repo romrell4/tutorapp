@@ -57,9 +57,10 @@ public class AvailableTutorsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
                 String tutorId = adapter.getItem(position).getId();
+                //TODO: Move this to the next screen
                 tutorRequestRef.child("activeTutorId").setValue(tutorId);
 
-                Intent intent = new Intent(AvailableTutorsActivity.this, AvailableTutorActivity.class);
+                Intent intent = new Intent(AvailableTutorsActivity.this, ReviewsActivity.class);
                 intent.putExtra(TUTOR_ID, tutorId);
                 intent.putExtra(TUTOR_REQUEST_ID, tutorRequestId);
                 startActivity(intent);
