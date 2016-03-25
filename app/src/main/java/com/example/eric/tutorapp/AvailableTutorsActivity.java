@@ -33,6 +33,7 @@ public class AvailableTutorsActivity extends AppCompatActivity {
     private static final String TAG = "AvailableTutorsActivity";
     public static final String TUTOR_ID = "com.tutorapp.tutorInfo";
     public static final String TUTOR_REQUEST_ID = "com.tutorapp.tutorRequestId";
+    public static final String TUTOR_USERNAME = "com.tutorapp.tutorUsername";
     private TutorAdapter adapter;
 
     @Override
@@ -55,14 +56,11 @@ public class AvailableTutorsActivity extends AppCompatActivity {
         availableTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
-                String tutorId = adapter.getItem(position).getId();
-                //TODO: Move this to the next screen
-                tutorRequestRef.child("activeTutorId").setValue(tutorId);
-
+                Tutor tutor = adapter.getItem(position);
                 Intent intent = new Intent(AvailableTutorsActivity.this, ReviewsActivity.class);
-                intent.putExtra(TUTOR_ID, tutorId);
+                intent.putExtra(TUTOR_ID, tutor.getId());
                 intent.putExtra(TUTOR_REQUEST_ID, tutorRequestId);
+                intent.putExtra(TUTOR_USERNAME, tutor.getUsername());
                 startActivity(intent);
             }
         });

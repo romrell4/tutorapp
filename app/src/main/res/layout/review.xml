@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@drawable/five_stars"
             android:layout_alignParentEnd="true"
             android:contentDescription="@string/ratingImage"
             />

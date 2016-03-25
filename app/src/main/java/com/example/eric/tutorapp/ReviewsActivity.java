@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,8 +34,13 @@ public class ReviewsActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_reviews);
 
-        String tutorId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_ID);
-        String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        Intent intent = getIntent();
+        final String tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        final String tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        final String tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+
+        TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
+        toolbarText.setText(tutorUsername);
 
         ListView reviewList = (ListView) findViewById(R.id.reviews);
         adapter = new ReviewAdapter(this, R.layout.review);
@@ -54,8 +60,7 @@ public class ReviewsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -66,10 +71,26 @@ public class ReviewsActivity extends AppCompatActivity {
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+                tutorRequestRef.child("activeTutorId").setValue(tutorId);
+
                 Intent intent = new Intent(ReviewsActivity.this, MessagingActivity.class);
+                intent.putExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID, tutorRequestId);
+                intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        final String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+        tutorRequestRef.child("activeTutorId").removeValue();
+        tutorRequestRef.child("tutorAccepted").removeValue();
+        tutorRequestRef.child("studentAccepted").removeValue();
+        tutorRequestRef.child("messages").removeValue();
+        super.onBackPressed();
     }
 
     private class ReviewAdapter extends ArrayAdapter<Review> {
@@ -116,6 +137,9 @@ public class ReviewsActivity extends AppCompatActivity {
             author.setText(getResources().getString(R.string.authorFormat, review.getAuthor()));
             TextView message = (TextView) convertView.findViewById(R.id.message);
             message.setText(review.getMessage());
+            ImageView stars = (ImageView) convertView.findViewById(R.id.stars);
+            stars.setImageResource(Utils.getRatingImage(review.getStars()));
+
             return convertView;
         }
     }

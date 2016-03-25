@@ -24,7 +24,6 @@
     <string name="reviewAmountFormat">(%d)</string>
 
     <!--ReviewsActivity-->
-    <string name="tutorInfoTitle">Tutor Information</string>
     <string name="profileImageText">Profile Image</string>
     <string name="authorFormat">%s said:</string>
     <string name="ratingImage">Rating Image</string>

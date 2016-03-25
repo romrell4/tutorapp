@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighter_grey"
     tools:context="com.example.eric.tutorapp.MessagingActivity">
 
     <android.support.v7.widget.Toolbar
@@ -12,6 +13,7 @@
         >
 
         <TextView
+            android:id="@+id/toolbarText"
             style="@style/ToolBarText"
             />
     </android.support.v7.widget.Toolbar>
@@ -23,6 +25,8 @@
         android:layout_below="@+id/toolbar"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_above="@+id/messageBar">
 
     </ListView>
