@@ -40,6 +40,9 @@ public class MessagingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messaging);
 
         String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        String tutorUsername = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
+        toolbarText.setText(tutorUsername);
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Messages", "Please wait...");
 
