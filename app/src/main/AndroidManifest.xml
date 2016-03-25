@@ -25,17 +25,15 @@
         <activity
             android:name=".AvailableTutorsActivity"
             android:screenOrientation="portrait"/>
-        <!--<activity-->
-            <!--android:name=".AvailableTutorActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateAlwaysHidden"/>-->
         <activity
             android:name=".OpportunitiesActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".ReviewsActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ReviewsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MessagingActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

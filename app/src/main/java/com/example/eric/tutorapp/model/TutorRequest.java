@@ -17,7 +17,7 @@ public class TutorRequest implements Serializable {
     private String name;
     private Course course;
     private BigDecimal price;
-    private String building;
+    private Building building;
     private String message;
     private List<Tutor> interestedTutors;
     private String activeTutorId;
@@ -28,7 +28,7 @@ public class TutorRequest implements Serializable {
     public TutorRequest() {
     }
 
-    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted, Boolean studentAccepted, List<ChatMessage> messages) {
+    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, Building building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted, Boolean studentAccepted, List<ChatMessage> messages) {
         this.phoneId = phoneId;
         this.name = name;
         this.course = course;
@@ -82,11 +82,11 @@ public class TutorRequest implements Serializable {
         this.price = price;
     }
 
-    public String getBuilding() {
+    public Building getBuilding() {
         return building;
     }
 
-    public void setBuilding(String building) {
+    public void setBuilding(Building building) {
         this.building = building;
     }
 

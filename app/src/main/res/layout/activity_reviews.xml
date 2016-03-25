@@ -33,6 +33,7 @@
     </ListView>
 
     <Button
+        android:id="@+id/contactButton"
         style="@style/BottomButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
