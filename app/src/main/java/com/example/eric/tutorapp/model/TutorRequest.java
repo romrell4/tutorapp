@@ -17,17 +17,18 @@ public class TutorRequest implements Serializable {
     private String name;
     private Course course;
     private BigDecimal price;
-    private String building;
+    private Building building;
     private String message;
     private List<Tutor> interestedTutors;
     private String activeTutorId;
     private Boolean tutorAccepted;
     private Boolean studentAccepted;
+    private List<ChatMessage> messages;
 
     public TutorRequest() {
     }
 
-    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, String building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted, Boolean studentAccepted) {
+    public TutorRequest(String phoneId, String name, Course course, BigDecimal price, Building building, String message, List<Tutor> interestedTutors, String activeTutorId, Boolean tutorAccepted, Boolean studentAccepted, List<ChatMessage> messages) {
         this.phoneId = phoneId;
         this.name = name;
         this.course = course;
@@ -38,6 +39,7 @@ public class TutorRequest implements Serializable {
         this.activeTutorId = activeTutorId;
         this.tutorAccepted = tutorAccepted;
         this.studentAccepted = studentAccepted;
+        this.messages = messages;
     }
 
     public String getId() {
@@ -80,11 +82,11 @@ public class TutorRequest implements Serializable {
         this.price = price;
     }
 
-    public String getBuilding() {
+    public Building getBuilding() {
         return building;
     }
 
-    public void setBuilding(String building) {
+    public void setBuilding(Building building) {
         this.building = building;
     }
 
@@ -139,20 +141,11 @@ public class TutorRequest implements Serializable {
         this.studentAccepted = studentAccepted;
     }
 
-    @Override
-    public String toString() {
-        return "TutorRequest{" +
-                "id='" + id + "'" +
-                ", phoneId='" + phoneId + '\'' +
-                ", name='" + name + '\'' +
-                ", course=" + course +
-                ", price=" + price +
-                ", building='" + building + '\'' +
-                ", message='" + message + '\'' +
-                ", interestedTutors=" + ((interestedTutors == null) ? "null" : Arrays.toString(interestedTutors.toArray())) +
-                ", activeTutorId='" + activeTutorId + "'" +
-                ", tutorAccepted=" + tutorAccepted +
-                ", studentAccepted=" + studentAccepted +
-                '}';
+    public List<ChatMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<ChatMessage> messages) {
+        this.messages = messages;
     }
 }

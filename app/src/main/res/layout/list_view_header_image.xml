@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:maxHeight="200dp"
+        android:src="@drawable/profile_image"
+        android:contentDescription="@string/profileImageText"
+        android:scaleType="centerCrop"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    </ImageView>
+</LinearLayout>

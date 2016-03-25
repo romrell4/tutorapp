@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,41 +30,22 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by eric on 3/8/16.
- */
-public class MessageFragment extends Fragment {
-    private static final String TAG = "MessageFragment";
-
-    private String tutorRequestId;
-    private Firebase messagesRef;
+public class MessagingActivity extends AppCompatActivity {
+    private static final String TAG = "MessagingActivity";
     private List<ChatMessage> messages = new ArrayList<>();
-    private ChatArrayAdapter chatArrayAdapter;
-    private ListView listView;
-    private EditText chatText;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_messaging);
 
-        Intent intent = getActivity().getIntent();
-        tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
-        Log.d(TAG, "onCreate: ID: " + tutorRequestId);
-    }
+        String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
 
-    private void sendChatMessage() {
-        messages.add(new ChatMessage(chatText.getText().toString(), false, false));
-        messagesRef.setValue(messages);
-        chatText.setText("");
-    }
+        final ProgressDialog dialog = ProgressDialog.show(this, "Loading Messages", "Please wait...");
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        final ChatArrayAdapter chatArrayAdapter = new ChatArrayAdapter(this, R.layout.chat_message);
 
-        final ProgressDialog dialog = ProgressDialog.show(getContext(), "Loading Messages", "Please wait...");
-
-        messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId + "/messages");
+        final Firebase messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId + "/messages");
         messagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,16 +63,17 @@ public class MessageFragment extends Fragment {
             public void onCancelled(FirebaseError firebaseError) {}
         });
 
-        Button buttonSend = (Button) view.findViewById(R.id.sendButton);
-        listView = (ListView) view.findViewById(R.id.messages);
-        chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.chat_message);
+        Button buttonSend = (Button) findViewById(R.id.sendButton);
+        final ListView listView = (ListView) findViewById(R.id.messages);
 
-        chatText = (EditText) view.findViewById(R.id.chatText);
-        
+        final EditText chatText = (EditText) findViewById(R.id.chatText);
+
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendChatMessage();
+                messages.add(new ChatMessage(chatText.getText().toString(), false, false));
+                messagesRef.setValue(messages);
+                chatText.setText("");
             }
         });
         listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -104,7 +86,6 @@ public class MessageFragment extends Fragment {
                 listView.setSelection(chatArrayAdapter.getCount() - 1);
             }
         });
-        return view;
     }
 
     private class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {

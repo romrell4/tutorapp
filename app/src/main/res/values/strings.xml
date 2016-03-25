@@ -1,10 +1,12 @@
 <resources>
+    <!--HomeActivity-->
     <string name="app_name">TutorApp</string>
     <string name="logoDescr">App Logo</string>
     <string name="continueText">Continue As…</string>
     <string name="studentText">Student</string>
     <string name="tutorText">Tutor</string>
 
+    <!--StudentSearchActivity-->
     <string name="studentSearchToolbarTitle">Get Help</string>
     <string name="nameHint">Your Name</string>
     <string name="courseHint">Course</string>
@@ -12,22 +14,29 @@
     <string name="buildingHint">Building to meet in</string>
     <string name="notesHint">e.g. "I only have 10 minutes… Who knows about photosynthesis?"</string>
     <string name="searchButtonText">Find a Tutor</string>
+    <string name="messageBoxTitle">Message for Tutor</string>
+
+    <!--AvailableTutorsActivity-->
+    <string name="availableTutorsToolbarTitle">Available Tutors</string>
     <string name="pendingTutorsText">36 tutors still haven\'t replied…</string>
     <string name="loadingText">Please allow a few minutes for tutors to see and accept your request.</string>
-
-    <string name="availableTutorsToolbarTitle">Available Tutors</string>
     <string name="tutorImage">Tutor Image</string>
-    <string name="messageBoxTitle">Message for Tutor</string>
-    <string name="ratingImage">Rating Image</string>
-    <string name="message_elipses">Write a message…</string>
     <string name="reviewAmountFormat">(%d)</string>
 
+    <!--ReviewsActivity-->
+    <string name="tutorInfoTitle">Tutor Information</string>
+    <string name="profileImageText">Profile Image</string>
     <string name="authorFormat">%s said:</string>
+    <string name="ratingImage">Rating Image</string>
+    <string name="contactTutorText">Contact Me</string>
 
-    <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
-    <string name="timeFormat"> - %s</string>
+    <!--MessagingActivity-->
+    <string name="message_elipses">Write a message…</string>
     <string name="acceptButtonText">Accept</string>
     <string name="rejectButtonText">Reject</string>
 
+    <!--OpportunitiesActivity-->
+    <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
+    <string name="timeFormat"> - %s</string>
 
 </resources>

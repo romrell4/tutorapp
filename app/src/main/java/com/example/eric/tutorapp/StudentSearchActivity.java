@@ -1,16 +1,21 @@
 package com.example.eric.tutorapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eric.tutorapp.model.Building;
 import com.example.eric.tutorapp.model.Course;
 import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
@@ -28,7 +33,7 @@ public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
     private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
     private Map<String, Course> courseMap = new HashMap<>();
-    private List<String> buildingList = new ArrayList<>();
+    private Map<String, Building> buildingMap = new HashMap<>();
 
     public static final String REQUEST_ID = "com.tutorapp.requestId";
 
@@ -39,19 +44,21 @@ public class StudentSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_search);
 
         Firebase coursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
+        final ArrayAdapter<String> courseAdapter = new ArrayAdapter<>(this, R.layout.spinner_item);
+        final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
+        courseText.setAdapter(courseAdapter);
         coursesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 courseMap.clear();
+                courseAdapter.clear();
                 for (DataSnapshot department : dataSnapshot.getChildren()) {
-                    for (DataSnapshot course : department.getChildren()) {
-                        Course courseObject = new Course(department.getKey(), course.child("catalogNumber").getValue().toString(), course.child("transcriptTitle").getValue().toString());
-                        courseMap.put(courseObject.toDescriptionString(), courseObject);
+                    for (DataSnapshot child : department.getChildren()) {
+                        Course course = new Course(department.getKey(), child.child("catalogNumber").getValue().toString(), child.child("transcriptTitle").getValue().toString());
+                        courseMap.put(course.toDescriptionString(), course);
+                        courseAdapter.add(course.toDescriptionString());
                     }
                 }
-
-                final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
-                courseText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.spinner_item, courseMap.keySet().toArray()));
             }
 
             @Override
@@ -59,16 +66,19 @@ public class StudentSearchActivity extends AppCompatActivity {
         });
 
         Firebase buildingsRef = new Firebase(HomeActivity.BASE_URL + "buildings");
+        final ArrayAdapter<String> buildingAdapter = new ArrayAdapter<>(this, R.layout.spinner_item);
+        final AutoCompleteTextView buildingText = (AutoCompleteTextView) findViewById(R.id.buildingText);
+        buildingText.setAdapter(buildingAdapter);
         buildingsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                buildingList.clear();
+                buildingMap.clear();
+                buildingAdapter.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    buildingList.add(child.getKey() + " - " + child.getValue());
+                    Building building = new Building(child.getKey(), child.getValue(String.class));
+                    buildingMap.put(building.toDescriptionString(), building);
+                    buildingAdapter.add(building.toDescriptionString());
                 }
-
-                final AutoCompleteTextView buildingText = (AutoCompleteTextView) findViewById(R.id.buildingText);
-                buildingText.setAdapter(new ArrayAdapter<>(StudentSearchActivity.this, R.layout.spinner_item, buildingList));
             }
 
             @Override
@@ -91,7 +101,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 //                else {
-//                    For testing only...
+                    //For testing only...
 //                    Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
 //                    intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
 //                    startActivity(intent);
@@ -118,7 +128,7 @@ public class StudentSearchActivity extends AppCompatActivity {
             Toast.makeText(StudentSearchActivity.this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
             return null;
         }
-        if (buildingText == null || buildingText.getText() == null || buildingText.getText().toString().isEmpty()) {
+        if (buildingText == null || buildingText.getText() == null || buildingText.getText().toString().isEmpty() || !buildingMap.containsKey(buildingText.getText().toString())) {
             Toast.makeText(StudentSearchActivity.this, "Please enter a valid building", Toast.LENGTH_SHORT).show();
             return null;
         }
@@ -131,10 +141,10 @@ public class StudentSearchActivity extends AppCompatActivity {
         String name = nameText.getText().toString();
         Course course = courseMap.get(courseText.getText().toString());
         BigDecimal price = new BigDecimal(priceText.getText().toString());
-        String building = buildingText.getText().toString();
+        Building building = buildingMap.get(buildingText.getText().toString());
         String message = messageText.getText().toString();
 
         //Return new request
-        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null, null);
+        return new TutorRequest(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID), name, course, price, building, message, null, null, null, null, null);
     }
 }

@@ -149,7 +149,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.timeText)).setText(getResources().getString(R.string.timeFormat, "a few moments ago"));
             ((TextView) view.findViewById(R.id.priceText)).setText(new DecimalFormat("'$'0.00").format(request.getPrice()));
             ((TextView) view.findViewById(R.id.courseText)).setText(request.getCourse().toSimpleString());
-            ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding());
+            ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding().getShortName());
 
             if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
                 view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_grey));
