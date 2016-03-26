@@ -1,21 +1,27 @@
 package com.example.eric.tutorapp;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eric.tutorapp.model.ChatMessage;
 import com.example.eric.tutorapp.model.Tutor;
 import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
@@ -56,20 +62,6 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
         final OpportunityAdapter adapter = new OpportunityAdapter(this, R.layout.opportunity);
 
-        final ListView opportunities = (ListView) findViewById(R.id.opportunities);
-        opportunities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TutorRequest tutorRequest = adapter.getItem(position);
-                if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
-                    Firebase tutorRequestRef = tutorRequestsRef.child(tutorRequest.getId());
-                    tutorRequestRef.child("tutorAccepted").setValue(true);
-                    Toast.makeText(getApplicationContext(), "You have just accepted the request from " + tutorRequest.getName(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        opportunities.setAdapter(adapter);
-
         Firebase tutorRef = new Firebase(HomeActivity.BASE_URL + "tutors");
         tutorRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -103,6 +95,53 @@ public class OpportunitiesActivity extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+
+        final ListView opportunities = (ListView) findViewById(R.id.opportunities);
+        opportunities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                TutorRequest tutorRequest = adapter.getItem(position);
+                if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
+                    final Dialog dialog = new Dialog(OpportunitiesActivity.this);
+                    dialog.setContentView(R.layout.popup);
+
+                    Button sendButton = (Button) dialog.findViewById(R.id.sendButton);
+                    sendButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText messageText = (EditText) dialog.findViewById(R.id.messageText);
+                            if (!messageText.getText().toString().isEmpty()) {
+                                final TutorRequest tutorRequest = adapter.getItem(position);
+                                final Firebase messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequest.getId() + "/messages");
+                                List<ChatMessage> messages = tutorRequest.getMessages() == null ? new ArrayList<ChatMessage>() : tutorRequest.getMessages();
+
+                                messages.add(new ChatMessage(messageText.getText().toString(), true, false));
+                                messagesRef.setValue(messages);
+                                dialog.dismiss();
+                            } else {
+                                Log.d(TAG, "onClick: Null");
+                            }
+                        }
+                    });
+
+                    Button inviteButton = (Button) dialog.findViewById(R.id.inviteButton);
+                    inviteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final TutorRequest tutorRequest = adapter.getItem(position);
+                            final Firebase messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequest.getId() + "/messages");
+                            List<ChatMessage> messages = tutorRequest.getMessages() == null ? new ArrayList<ChatMessage>() : tutorRequest.getMessages();
+
+                            messages.add(new ChatMessage("Please click accept below to hire this tutor", true, true));
+                            messagesRef.setValue(messages);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
+        opportunities.setAdapter(adapter);
     }
 
     private class OpportunityAdapter extends ArrayAdapter<TutorRequest> {
