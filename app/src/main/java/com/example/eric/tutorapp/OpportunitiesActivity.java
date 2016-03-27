@@ -129,7 +129,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                             final Firebase messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequest.getId() + "/messages");
                             List<ChatMessage> messages = tutorRequest.getMessages() == null ? new ArrayList<ChatMessage>() : tutorRequest.getMessages();
 
-                            messages.add(new ChatMessage("Please click accept below to hire this tutor", true, true));
+                            messages.add(new ChatMessage("This tutor has offered to help you. Click accept below to hire this tutor", true, true));
                             messagesRef.setValue(messages);
                             dialog.dismiss();
                         }
