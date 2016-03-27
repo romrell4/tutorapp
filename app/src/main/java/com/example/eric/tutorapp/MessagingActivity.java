@@ -2,9 +2,11 @@ package com.example.eric.tutorapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,14 +35,18 @@ import java.util.List;
 public class MessagingActivity extends AppCompatActivity {
     private static final String TAG = "MessagingActivity";
     private List<ChatMessage> messages = new ArrayList<>();
+    private String tutorRequestId;
+    private String tutorId;
+    private String tutorUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
-        String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
-        String tutorUsername = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        tutorId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        tutorUsername = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
         TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
         toolbarText.setText(tutorUsername);
 
@@ -141,7 +147,44 @@ public class MessagingActivity extends AppCompatActivity {
 
             LinearLayout acceptAndRejectLayout = (LinearLayout) row.findViewById(R.id.acceptAndRejectLayout);
             acceptAndRejectLayout.setVisibility(chatMessage.getRequest() ? View.VISIBLE : View.GONE);
+
+            Button acceptButton = (Button) row.findViewById(R.id.acceptButton);
+            acceptButton.setOnClickListener(new OnAcceptClickListener());
             return row;
+        }
+    }
+
+    private class OnAcceptClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+            tutorRequestRef.child("studentAccepted").setValue(true);
+            new AlertDialog.Builder(MessagingActivity.this)
+                    .setTitle("Tutor Accepted")
+                    .setMessage("Your tutor is on their way! Whenever you are finished, please choose below whether or not you'd like to leave a rating for this tutor.")
+                    .setPositiveButton("Rate", new RateOnClickListener())
+                    .setNegativeButton("Don't Rate", new NotRateOnClickListener())
+                    .show();
+        }
+    }
+
+    private class RateOnClickListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Log.d(TAG, "onClick: Rating");
+            Intent intent = new Intent(MessagingActivity.this, RateActivity.class);
+            intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
+            intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
+            startActivity(intent);
+        }
+    }
+
+    private class NotRateOnClickListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Log.d(TAG, "onClick: Not rating");
+            Intent intent = new Intent(MessagingActivity.this, HomeActivity.class);
+            startActivity(intent);
         }
     }
 }

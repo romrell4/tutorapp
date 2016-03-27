@@ -47,8 +47,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        final ProgressDialog dialog = ProgressDialog.show(this, "Loading Available Tutors", "Please wait...");
-
         final String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
 
         adapter = new TutorAdapter(this, R.layout.tutor);
@@ -78,7 +76,6 @@ public class AvailableTutorsActivity extends AppCompatActivity {
                 }
 
                 findViewById(R.id.loadingText).setVisibility(adapter.getCount() > 0 ? View.INVISIBLE : View.VISIBLE);
-                dialog.dismiss();
             }
 
             @Override

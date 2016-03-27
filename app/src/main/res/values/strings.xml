@@ -37,5 +37,9 @@
     <!--OpportunitiesActivity-->
     <string name="opportunitiesToolbarTitle">Tutor Opportunities</string>
     <string name="timeFormat"> - %s</string>
+    <string name="reviewTextHint">(Optional)</string>
+    <string name="reviewTextLabel">Leave a review of this tutor:</string>
+    <string name="ratingBarLabel">How would you rate ________\'s tutoring?</string>
+    <string name="submitRatingText">Submit Rating</string>
 
 </resources>
