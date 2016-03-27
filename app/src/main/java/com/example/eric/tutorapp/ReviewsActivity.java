@@ -75,6 +75,7 @@ public class ReviewsActivity extends AppCompatActivity {
                 tutorRequestRef.child("activeTutorId").setValue(tutorId);
 
                 Intent intent = new Intent(ReviewsActivity.this, MessagingActivity.class);
+                intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID, tutorRequestId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
                 startActivity(intent);

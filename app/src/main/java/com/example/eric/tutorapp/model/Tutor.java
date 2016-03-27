@@ -1,6 +1,7 @@
 package com.example.eric.tutorapp.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +79,13 @@ public class Tutor implements Serializable {
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public void addReview(Review review) {
+        if (this.reviews == null) {
+            this.reviews = new ArrayList<>();
+        }
+        this.reviews.add(review);
     }
 
     public void setReviews(List<Review> reviews) {

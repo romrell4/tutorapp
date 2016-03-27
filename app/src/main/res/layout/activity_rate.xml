@@ -30,9 +30,9 @@
         >
 
         <TextView
+            android:id="@+id/ratingBarLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ratingBarLabel"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:gravity="center"
@@ -64,7 +64,7 @@
             android:lines="5"
             android:gravity="top|start"
             android:hint="@string/reviewTextHint"
-            android:textColorHint="@color/light_grey"
+            android:textColorHint="@color/grey"
             android:background="@drawable/edit_text_bordered"
             android:padding="5dp"
             />
