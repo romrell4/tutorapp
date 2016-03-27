@@ -82,9 +82,7 @@
         android:id="@+id/searchButton"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
         android:text="@string/searchButtonText"
-        android:textColor="@color/white"
         style="@style/BottomButton"
         />
 

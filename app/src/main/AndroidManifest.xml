@@ -34,6 +34,10 @@
         <activity
             android:name=".MessagingActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RateActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.eric.tutorapp.model.ChatMessage;
 import com.example.eric.tutorapp.model.Tutor;
@@ -103,7 +100,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 TutorRequest tutorRequest = adapter.getItem(position);
                 if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
                     final Dialog dialog = new Dialog(OpportunitiesActivity.this);
-                    dialog.setContentView(R.layout.popup);
+                    dialog.setContentView(R.layout.tutor_message_popup);
 
                     Button sendButton = (Button) dialog.findViewById(R.id.sendButton);
                     sendButton.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +188,11 @@ public class OpportunitiesActivity extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.buildingText)).setText(request.getBuilding().getShortName());
 
             if (loggedInTutor.getId().equals(request.getActiveTutorId())) {
-                view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_grey));
+                if (request.getStudentAccepted() != null && request.getStudentAccepted()) {
+                    view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                } else {
+                    view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_grey));
+                }
             } else {
                 view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
             }
