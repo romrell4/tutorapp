@@ -1,31 +1,24 @@
 package com.example.eric.tutorapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.eric.tutorapp.model.Course;
 import com.example.eric.tutorapp.model.Review;
 import com.example.eric.tutorapp.model.Tutor;
-import com.example.eric.tutorapp.model.TutorRequest;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,6 +124,17 @@ public class AvailableTutorsActivity extends AppCompatActivity {
 
             Tutor tutor = getItem(position);
 
+            if(tutor.getReviews() == null)
+            {
+                List<Review> temp = new ArrayList<Review>();
+                Review r = new Review();
+                r.setAuthor("Author!!!");
+                r.setMessage("message!!!");
+                r.setStars(5);
+                r.setDateSubmitted("Feb 11 2016");
+                temp.add(r);
+                tutor.setReviews(temp);
+            }
             int stars = 0;
             for (Review review : tutor.getReviews()) {
                 stars += review.getStars();
