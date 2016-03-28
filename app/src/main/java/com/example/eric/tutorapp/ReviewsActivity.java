@@ -2,9 +2,12 @@ package com.example.eric.tutorapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,6 +43,7 @@ public class ReviewsActivity extends AppCompatActivity
         final String tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
         final String tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
 
+        final String tutorUsernameToPrint = tutorUsername == null ? "a user name" : tutorUsername.equals("") ? "a user name" : tutorUsername;
  //       TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
   //      toolbarText.setText(tutorUsername);
 
@@ -52,11 +56,46 @@ public class ReviewsActivity extends AppCompatActivity
         final MyListAdapter adapter = new MyListAdapter(temp);
         reviewList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         reviewList.setAdapter(adapter);
+
+        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        //------------------------- Set up the initial CollapsingToolbarLayout jank ---------------------------------------
+        toolbarLayout.setTitle("");
+        //we set title to be "" on expanded so we dont care what color it is
+        toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getBaseContext(), R.color.black));
+        toolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
+        toolbarLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
+
+        //only show the title when the pic is collapsed--------------------------------------------------------------
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener()
+        {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+            {
+                if (scrollRange == -1)
+                {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0)
+                {
+                    toolbarLayout.setTitle(tutorUsernameToPrint);
+                    isShow = true;
+                } else if (isShow)
+                {
+                    toolbarLayout.setTitle("");
+                    isShow = false;
+                }
+            }
+        });
         /*
         ListView reviewList = (ListView) findViewById(R.id.reviews);
         adapter = new ReviewAdapter(this, R.layout.review);
         reviewList.setAdapter(adapter);
         */
+
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Reviews", "Please wait...");
 
@@ -100,7 +139,8 @@ public class ReviewsActivity extends AppCompatActivity
         //Button contactButton = (Button) findViewById(R.id.contactButton);
         //contactButton.setOnClickListener(new View.OnClickListener()
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+        {
             /**
              * Called when a view has been clicked.
              *
@@ -119,6 +159,7 @@ public class ReviewsActivity extends AppCompatActivity
             }
 
         });
+
     }
 
     @Override
