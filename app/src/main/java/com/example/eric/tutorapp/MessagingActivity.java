@@ -38,6 +38,7 @@ public class MessagingActivity extends AppCompatActivity {
     private String tutorRequestId;
     private String tutorId;
     private String tutorUsername;
+    private String studentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MessagingActivity extends AppCompatActivity {
         tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
         tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
         tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
         TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
         toolbarText.setText(tutorUsername);
 
@@ -180,6 +182,8 @@ public class MessagingActivity extends AppCompatActivity {
             Intent intent = new Intent(MessagingActivity.this, RateActivity.class);
             intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
             intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
+            Log.d(TAG, "onClick: Student=" + studentName);
+            intent.putExtra(StudentSearchActivity.STUDENT_NAME, studentName);
             startActivity(intent);
         }
     }

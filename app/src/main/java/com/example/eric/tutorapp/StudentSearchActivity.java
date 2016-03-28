@@ -35,7 +35,8 @@ public class StudentSearchActivity extends AppCompatActivity {
     private Map<String, Course> courseMap = new HashMap<>();
     private Map<String, Building> buildingMap = new HashMap<>();
 
-    public static final String REQUEST_ID = "com.tutorapp.requestId";
+    public static final String TUTOR_REQUEST_ID = "com.tutorapp.tutorRequestId";
+    public static final String STUDENT_NAME = "com.tutorapp.studentName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +98,15 @@ public class StudentSearchActivity extends AppCompatActivity {
                     newRequestRef.setValue(request);
 
                     Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
-                    intent.putExtra(REQUEST_ID, newRequestRef.getKey());
+                    intent.putExtra(TUTOR_REQUEST_ID, newRequestRef.getKey());
+                    intent.putExtra(STUDENT_NAME, request.getName());
                     startActivity(intent);
                 }
 //                else {
                     //For testing only...
 //                    Intent intent = new Intent(StudentSearchActivity.this, AvailableTutorsActivity.class);
-//                    intent.putExtra(REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
+//                    intent.putExtra(TUTOR_REQUEST_ID, "-KCs4amAoybXmpRn5h7Z");
+//                    intent.putExtra(STUDENT_NAME, "Eric");
 //                    startActivity(intent);
 //                }
             }

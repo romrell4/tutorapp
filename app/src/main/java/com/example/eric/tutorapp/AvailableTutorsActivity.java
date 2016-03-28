@@ -47,7 +47,9 @@ public class AvailableTutorsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        final String tutorRequestId = getIntent().getStringExtra(StudentSearchActivity.REQUEST_ID);
+        final Intent intent = getIntent();
+        final String tutorRequestId = intent.getStringExtra(StudentSearchActivity.TUTOR_REQUEST_ID);
+        final String studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
 
         adapter = new TutorAdapter(this, R.layout.tutor);
         final ListView availableTutors = (ListView) findViewById(R.id.availableTutors);
@@ -59,6 +61,9 @@ public class AvailableTutorsActivity extends AppCompatActivity {
                 intent.putExtra(TUTOR_ID, tutor.getId());
                 intent.putExtra(TUTOR_REQUEST_ID, tutorRequestId);
                 intent.putExtra(TUTOR_USERNAME, tutor.getUsername());
+                Log.d(TAG, "onClick: Student=" + studentName);
+                intent.putExtra(StudentSearchActivity.STUDENT_NAME, studentName);
+
                 startActivity(intent);
             }
         });

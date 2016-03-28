@@ -101,6 +101,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
                     final Dialog dialog = new Dialog(OpportunitiesActivity.this);
                     dialog.setContentView(R.layout.tutor_message_popup);
+                    dialog.setTitle("Enter your message:");
 
                     Button sendButton = (Button) dialog.findViewById(R.id.sendButton);
                     sendButton.setOnClickListener(new View.OnClickListener() {
