@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentLayout"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.example.eric.tutorapp.StudentSearchActivity"
+<ScrollView android:id="@+id/parentLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            tools:context="com.example.eric.tutorapp.StudentSearchActivity"
     >
 
     <LinearLayout
@@ -17,74 +17,80 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/ToolBar">
+
             <TextView
-                android:text="@string/studentSearchToolbarTitle"
-                style="@style/ToolBarText" />
+                style="@style/ToolBarText"
+                android:text="@string/studentSearchToolbarTitle"/>
         </android.support.v7.widget.Toolbar>
 
         <EditText
             android:id="@+id/nameText"
-            android:inputType="textCapSentences"
-            android:hint="@string/nameHint"
             style="@style/FormEditText"
+            android:hint="@string/nameHint"
+            android:inputType="textCapSentences"
             />
 
         <EditText
             android:id="@+id/priceText"
+            style="@style/FormEditText"
+            android:hint="@string/priceHint"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:hint="@string/priceHint"
-            style="@style/FormEditText"
             />
 
         <AutoCompleteTextView
             android:id="@+id/courseText"
+            style="@style/FormEditText"
+            android:completionThreshold="1"
+            android:hint="@string/courseHint"
             android:inputType="textCapCharacters"
             android:popupBackground="@color/light_grey"
-            android:hint="@string/courseHint"
-            android:completionThreshold="1"
-            style="@style/FormEditText"
             />
 
         <AutoCompleteTextView
             android:id="@+id/buildingText"
+            style="@style/FormEditText"
+            android:completionThreshold="1"
+            android:hint="@string/buildingHint"
             android:inputType="textCapSentences"
             android:popupBackground="@color/light_grey"
-            android:hint="@string/buildingHint"
-            android:completionThreshold="1"
-            style="@style/FormEditText"
             />
 
         <TextView
             android:id="@+id/messageBoxTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/messageBoxTitle"
             android:textColor="@color/black"
-            android:layout_marginStart="10dp"
             />
 
         <EditText
             android:id="@+id/notesText"
-            android:inputType="textMultiLine|textCapSentences"
-            android:lines="5"
+            style="@style/FormEditText"
+            android:layout_margin="8dp"
+            android:background="@drawable/edit_text_bordered"
             android:gravity="top|start"
             android:hint="@string/notesHint"
-            android:background="@drawable/edit_text_bordered"
-            android:layout_margin="8dp"
+            android:inputType="textMultiLine|textCapSentences"
+            android:lines="5"
             android:padding="5dp"
-            style="@style/FormEditText"
+            />
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/searchButtonText"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
             />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:text="@string/searchButtonText"
-        style="@style/BottomButton"
-        />
-
-
-</RelativeLayout>
+</ScrollView>
