@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class ReviewsActivity extends AppCompatActivity {
         final String tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
         final String tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
         final String tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        final String studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
 
         TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
         toolbarText.setText(tutorUsername);
@@ -78,6 +80,8 @@ public class ReviewsActivity extends AppCompatActivity {
                 intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID, tutorRequestId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
+                Log.d(TAG, "onClick: Student=" + studentName);
+                intent.putExtra(StudentSearchActivity.STUDENT_NAME, studentName);
                 startActivity(intent);
             }
         });

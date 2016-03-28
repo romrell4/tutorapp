@@ -27,6 +27,7 @@ public class RateActivity extends AppCompatActivity {
     private static final String TAG = "RateActivity";
 
     private String tutorId;
+    private String studentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class RateActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
+
         String tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
         TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
         toolbarText.setText(tutorUsername);
@@ -70,7 +73,7 @@ public class RateActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Tutor tutor = dataSnapshot.getValue(Tutor.class);
 
-                tutor.addReview(new Review(stars, reviewText, new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(new Date()), "Eric"));
+                tutor.addReview(new Review(stars, reviewText, new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(new Date()), studentName));
 
                 tutorRef.child("reviews").setValue(tutor.getReviews());
                 tutorRef.removeEventListener(this);
