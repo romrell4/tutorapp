@@ -18,6 +18,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class RateActivity extends AppCompatActivity {
     private static final String TAG = "RateActivity";
 
@@ -65,7 +70,7 @@ public class RateActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Tutor tutor = dataSnapshot.getValue(Tutor.class);
 
-                tutor.addReview(new Review(stars, reviewText, "3/26/2016", "Eric"));
+                tutor.addReview(new Review(stars, reviewText, new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(new Date()), "Eric"));
 
                 tutorRef.child("reviews").setValue(tutor.getReviews());
                 tutorRef.removeEventListener(this);
