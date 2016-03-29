@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,9 @@ public class ReviewsActivity extends AppCompatActivity {
         final String studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
 
         final String tutorUsernameToPrint = tutorUsername == null ? "a user name" : tutorUsername.equals("") ? "a user name" : tutorUsername;
-        //       TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
-        //      toolbarText.setText(tutorUsername);
+
+        final TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
+        toolbarText.setText(tutorUsernameToPrint);
 
         final ImageView imageView = (ImageView) findViewById(R.id.imageID);
         imageView.setImageResource(R.drawable.profile_image);
@@ -58,15 +60,8 @@ public class ReviewsActivity extends AppCompatActivity {
         reviewList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         reviewList.setAdapter(adapter);
 
-        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        //------------------------- Set up the initial CollapsingToolbarLayout jank ---------------------------------------
-        toolbarLayout.setTitle("");
-        //we set title to be "" on expanded so we dont care what color it is
-        toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getBaseContext(), R.color.black));
-        toolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-        toolbarLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
 
-        //only show the title when the pic is collapsed--------------------------------------------------------------
+        //only show the title when the pic is collapsed
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -78,20 +73,14 @@ public class ReviewsActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    toolbarLayout.setTitle(tutorUsernameToPrint);
+                    toolbarText.setVisibility(View.VISIBLE);
                     isShow = true;
                 } else if (isShow) {
-                    toolbarLayout.setTitle("");
+                    toolbarText.setVisibility(View.INVISIBLE);
                     isShow = false;
                 }
             }
         });
-        /*
-        ListView reviewList = (ListView) findViewById(R.id.reviews);
-        adapter = new ReviewAdapter(this, R.layout.review);
-        reviewList.setAdapter(adapter);
-        */
-
 
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Reviews", "Please wait...");
 
@@ -112,13 +101,7 @@ public class ReviewsActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.list_view_header_image, reviewList, false);
-        reviewList.addHeaderView(linearLayout);*/
 
-        //Button contactButton = (Button) findViewById(R.id.contactButton);
-        //contactButton.setOnClickListener(new View.OnClickListener()
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             /**
@@ -155,57 +138,6 @@ public class ReviewsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    /*private class ReviewAdapter extends ArrayAdapter<Review> {
-        private List<Review> reviews = new ArrayList<>();
-        private int layout;
-
-        public ReviewAdapter(Context context, int resource) {
-            super(context, resource);
-            this.layout = resource;
-        }
-
-        @Override
-        public void add(Review object) {
-            super.add(object);
-            reviews.add(object);
-        }
-
-        @Override
-        public int getCount() {
-            return reviews.size();
-        }
-
-        @Override
-        public void clear() {
-            super.clear();
-            reviews.clear();
-        }
-
-        @Override
-        public Review getItem(int position) {
-            return reviews.get(position);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(layout, parent, false);
-            }
-
-            Review review = getItem(position);
-
-            TextView author = (TextView) convertView.findViewById(R.id.author);
-            author.setText(getResources().getString(R.string.authorFormat, review.getAuthor()));
-            TextView message = (TextView) convertView.findViewById(R.id.message);
-            message.setText(review.getMessage());
-            ImageView stars = (ImageView) convertView.findViewById(R.id.stars);
-            stars.setImageResource(Utils.getRatingImage(review.getStars()));
-
-            return convertView;
-        }
-    }*/
-
     public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
         private List<Review> mDataSet;
 
@@ -222,19 +154,9 @@ public class ReviewsActivity extends AppCompatActivity {
 
             public ViewHolder(View v) {
                 super(v);
-                // Define click listener for the ViewHolder's View.
-//                v.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.d("HERE", "Element " + getPosition() + " clicked.");
-//                    }
-//                });
-//                Review review = mDataSet.get(getAdapterPosition());
 
                 author = (TextView) v.findViewById(R.id.author);
-
                 message = (TextView) v.findViewById(R.id.message);
-
                 stars = (ImageView) v.findViewById(R.id.stars);
 
             }

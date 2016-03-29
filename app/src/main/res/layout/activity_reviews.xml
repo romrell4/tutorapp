@@ -20,11 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:backgroundTint="@color/colorPrimary">
+            >
 
             <!--app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">-->
 
@@ -42,7 +42,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <TextView
+                    android:id="@+id/toolbarText"
+                    android:background="@android:color/transparent"
+                    android:visibility="invisible"
+                    style="@style/ToolBarText"
+                    />
+            </android.support.v7.widget.Toolbar>
             <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -63,7 +71,7 @@
         android:src="@drawable/message_me_icon"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:backgroundTint="@color/red"
+        app:backgroundTint="@color/green"
         app:layout_behavior=""/>
 
 </android.support.design.widget.CoordinatorLayout>
