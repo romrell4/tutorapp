@@ -38,15 +38,18 @@ public class MessagingActivity extends AppCompatActivity {
     private String tutorRequestId;
     private String tutorId;
     private String tutorUsername;
+    private String studentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
-        tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
-        tutorId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_ID);
-        tutorUsername = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        final Intent intent = getIntent();
+        tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
+        tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
+        studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
         TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
         toolbarText.setText(tutorUsername);
 
@@ -150,6 +153,9 @@ public class MessagingActivity extends AppCompatActivity {
 
             Button acceptButton = (Button) row.findViewById(R.id.acceptButton);
             acceptButton.setOnClickListener(new OnAcceptClickListener());
+
+            Button rejectButton = (Button) row.findViewById(R.id.rejectButton);
+            rejectButton.setOnClickListener(new OnRejectClickListener());
             return row;
         }
     }
@@ -159,6 +165,7 @@ public class MessagingActivity extends AppCompatActivity {
         public void onClick(View v) {
             final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
             tutorRequestRef.child("studentAccepted").setValue(true);
+
             new AlertDialog.Builder(MessagingActivity.this)
                     .setTitle("Tutor Accepted")
                     .setMessage("Your tutor is on their way! Whenever you are finished, please choose below whether or not you'd like to leave a rating for this tutor.")
@@ -175,6 +182,8 @@ public class MessagingActivity extends AppCompatActivity {
             Intent intent = new Intent(MessagingActivity.this, RateActivity.class);
             intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
             intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
+            Log.d(TAG, "onClick: Student=" + studentName);
+            intent.putExtra(StudentSearchActivity.STUDENT_NAME, studentName);
             startActivity(intent);
         }
     }
@@ -185,6 +194,15 @@ public class MessagingActivity extends AppCompatActivity {
             Log.d(TAG, "onClick: Not rating");
             Intent intent = new Intent(MessagingActivity.this, HomeActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private class OnRejectClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
+            tutorRequestRef.child("studentAccepted").setValue(false);
+            onBackPressed();
         }
     }
 }

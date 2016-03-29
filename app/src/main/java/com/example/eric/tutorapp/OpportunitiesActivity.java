@@ -101,6 +101,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                 if (loggedInTutor.getId().equals(tutorRequest.getActiveTutorId())) {
                     final Dialog dialog = new Dialog(OpportunitiesActivity.this);
                     dialog.setContentView(R.layout.tutor_message_popup);
+                    dialog.setTitle("Enter your message:");
 
                     Button sendButton = (Button) dialog.findViewById(R.id.sendButton);
                     sendButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +130,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                             final Firebase messagesRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequest.getId() + "/messages");
                             List<ChatMessage> messages = tutorRequest.getMessages() == null ? new ArrayList<ChatMessage>() : tutorRequest.getMessages();
 
-                            messages.add(new ChatMessage("Please click accept below to hire this tutor", true, true));
+                            messages.add(new ChatMessage("This tutor has offered to help you. Click accept below to hire this tutor", true, true));
                             messagesRef.setValue(messages);
                             dialog.dismiss();
                         }

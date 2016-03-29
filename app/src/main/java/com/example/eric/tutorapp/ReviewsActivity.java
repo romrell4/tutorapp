@@ -3,6 +3,7 @@ package com.example.eric.tutorapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ public class ReviewsActivity extends AppCompatActivity
         final String tutorId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_ID);
         final String tutorUsername = intent.getStringExtra(AvailableTutorsActivity.TUTOR_USERNAME);
         final String tutorRequestId = intent.getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
+        final String studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
 
         final String tutorUsernameToPrint = tutorUsername == null ? "a user name" : tutorUsername.equals("") ? "a user name" : tutorUsername;
  //       TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
@@ -153,8 +156,11 @@ public class ReviewsActivity extends AppCompatActivity
                 tutorRequestRef.child("activeTutorId").setValue(tutorId);
 
                 Intent intent = new Intent(ReviewsActivity.this, MessagingActivity.class);
+                intent.putExtra(AvailableTutorsActivity.TUTOR_ID, tutorId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID, tutorRequestId);
                 intent.putExtra(AvailableTutorsActivity.TUTOR_USERNAME, tutorUsername);
+                Log.d(TAG, "onClick: Student=" + studentName);
+                intent.putExtra(StudentSearchActivity.STUDENT_NAME, studentName);
                 startActivity(intent);
             }
 
