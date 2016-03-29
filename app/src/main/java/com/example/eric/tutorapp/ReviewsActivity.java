@@ -28,14 +28,12 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewsActivity extends AppCompatActivity
-{
+public class ReviewsActivity extends AppCompatActivity {
     private static final String TAG = "ReviewsActivity";
     //private ReviewAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_reviews);
@@ -47,10 +45,10 @@ public class ReviewsActivity extends AppCompatActivity
         final String studentName = intent.getStringExtra(StudentSearchActivity.STUDENT_NAME);
 
         final String tutorUsernameToPrint = tutorUsername == null ? "a user name" : tutorUsername.equals("") ? "a user name" : tutorUsername;
- //       TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
-  //      toolbarText.setText(tutorUsername);
+        //       TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
+        //      toolbarText.setText(tutorUsername);
 
-        final ImageView imageView = (ImageView)findViewById(R.id.imageID);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageID);
         imageView.setImageResource(R.drawable.profile_image);
 
         RecyclerView reviewList = (RecyclerView) findViewById(R.id.recyclerView);
@@ -60,7 +58,7 @@ public class ReviewsActivity extends AppCompatActivity
         reviewList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         reviewList.setAdapter(adapter);
 
-        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         //------------------------- Set up the initial CollapsingToolbarLayout jank ---------------------------------------
         toolbarLayout.setTitle("");
         //we set title to be "" on expanded so we dont care what color it is
@@ -70,24 +68,19 @@ public class ReviewsActivity extends AppCompatActivity
 
         //only show the title when the pic is collapsed--------------------------------------------------------------
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener()
-        {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
 
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
-            {
-                if (scrollRange == -1)
-                {
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
-                if (scrollRange + verticalOffset == 0)
-                {
+                if (scrollRange + verticalOffset == 0) {
                     toolbarLayout.setTitle(tutorUsernameToPrint);
                     isShow = true;
-                } else if (isShow)
-                {
+                } else if (isShow) {
                     toolbarLayout.setTitle("");
                     isShow = false;
                 }
@@ -103,34 +96,19 @@ public class ReviewsActivity extends AppCompatActivity
         final ProgressDialog dialog = ProgressDialog.show(this, "Loading Reviews", "Please wait...");
 
         Firebase reviewsRef = new Firebase(HomeActivity.BASE_URL + "tutors/" + tutorId + "/reviews");
-        reviewsRef.addValueEventListener(new ValueEventListener()
-        {
+        reviewsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 adapter.clear();
-                for (DataSnapshot child : dataSnapshot.getChildren())
-                {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "onDataChange: Child=" + child);
                     adapter.add(child.getValue(Review.class));
-                    //---------------------- make some fake reviews to show -------------------------------
-                    for(int i = 0; i < 15; i++)
-                    {
-                        Review r = new Review();
-                        r.setDateSubmitted("date submitted number: " + String.valueOf(i));
-                        r.setStars(4);
-                        r.setMessage("random message number: " + String.valueOf(i));
-                        r.setAuthor("random author number: " + String.valueOf(i));
-
-                        adapter.add(r);
-                    }
-                    //---------------------------------------------------------------------------------------
                 }
                 dialog.hide();
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError)
-            {
+            public void onCancelled(FirebaseError firebaseError) {
             }
         });
 
@@ -142,16 +120,14 @@ public class ReviewsActivity extends AppCompatActivity
         //Button contactButton = (Button) findViewById(R.id.contactButton);
         //contactButton.setOnClickListener(new View.OnClickListener()
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        fab.setOnClickListener(new View.OnClickListener() {
             /**
              * Called when a view has been clicked.
              *
              * @param v The view that was clicked.
              */
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
                 tutorRequestRef.child("activeTutorId").setValue(tutorId);
 
@@ -169,8 +145,7 @@ public class ReviewsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         final String tutorRequestId = getIntent().getStringExtra(AvailableTutorsActivity.TUTOR_REQUEST_ID);
         Firebase tutorRequestRef = new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + tutorRequestId);
         tutorRequestRef.child("activeTutorId").removeValue();
@@ -231,8 +206,7 @@ public class ReviewsActivity extends AppCompatActivity
         }
     }*/
 
-    public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>
-    {
+    public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
         private List<Review> mDataSet;
 
         // BEGIN_INCLUDE(recyclerViewSampleViewHolder)
@@ -241,20 +215,17 @@ public class ReviewsActivity extends AppCompatActivity
          * Provide a reference to the type of views that you are using (custom ViewHolder)
          */
         //A RECYLERVIEW HOLDS THESE. SO WE MAKE OUR OWN VIEWHOLDER.
-        public class ViewHolder extends RecyclerView.ViewHolder
-        {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             TextView author;
             TextView message;
             ImageView stars;
-            public ViewHolder(View v)
-            {
+
+            public ViewHolder(View v) {
                 super(v);
                 // Define click listener for the ViewHolder's View.
-                v.setOnClickListener(new View.OnClickListener()
-                {
+                v.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         Log.d("HERE", "Element " + getPosition() + " clicked.");
                     }
                 });
@@ -266,11 +237,9 @@ public class ReviewsActivity extends AppCompatActivity
 
                 stars = (ImageView) v.findViewById(R.id.stars);
 
-
             }
 
-            public void initData(Review review)
-            {
+            public void initData(Review review) {
                 author.setText(getResources().getString(R.string.authorFormat, review.getAuthor()));
                 message.setText(review.getMessage());
                 stars.setImageResource(Utils.getRatingImage(review.getStars()));
@@ -284,16 +253,14 @@ public class ReviewsActivity extends AppCompatActivity
          *
          * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
          */
-        public MyListAdapter(List<Review> dataSet)
-        {
+        public MyListAdapter(List<Review> dataSet) {
             mDataSet = dataSet;
         }
 
         // BEGIN_INCLUDE(recyclerViewOnCreateViewHolder)
         // Create new views (invoked by the layout manager)
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
-        {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view.
 
             //----------- CREATE THE VIEW FROM THE XML. -------
@@ -307,8 +274,7 @@ public class ReviewsActivity extends AppCompatActivity
         // BEGIN_INCLUDE(recyclerViewOnBindViewHolder)
         // Replace the contents of a view (invoked by the layout manager)
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position)
-        {
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
 
             // Get element from your dataset at this position and replace the contents of the view
@@ -320,20 +286,17 @@ public class ReviewsActivity extends AppCompatActivity
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return mDataSet.size();
         }
 
 
-        public void add(Review input)
-        {
+        public void add(Review input) {
             mDataSet.add(input);
             this.notifyDataSetChanged();
         }
 
-        public void clear()
-        {
+        public void clear() {
             mDataSet.clear();
         }
     }
