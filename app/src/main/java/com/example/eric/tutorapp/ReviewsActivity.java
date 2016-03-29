@@ -223,12 +223,12 @@ public class ReviewsActivity extends AppCompatActivity {
             public ViewHolder(View v) {
                 super(v);
                 // Define click listener for the ViewHolder's View.
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("HERE", "Element " + getPosition() + " clicked.");
-                    }
-                });
+//                v.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d("HERE", "Element " + getPosition() + " clicked.");
+//                    }
+//                });
 //                Review review = mDataSet.get(getAdapterPosition());
 
                 author = (TextView) v.findViewById(R.id.author);
