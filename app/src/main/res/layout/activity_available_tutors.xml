@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    tools:context="com.example.eric.tutorapp.AvailableTutorsActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+              tools:context="com.example.eric.tutorapp.AvailableTutorsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/ToolBar">
+
         <TextView
-            android:text="@string/availableTutorsToolbarTitle"
             style="@style/ToolBarText"
+            android:text="@string/availableTutorsToolbarTitle"
             />
     </android.support.v7.widget.Toolbar>
 
@@ -20,11 +21,11 @@
         android:id="@+id/pendingTutors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
         android:background="@color/light_grey"
+        android:gravity="center"
+        android:paddingTop="2dp"
         android:text="@string/pendingTutorsText"
         android:textColor="@color/black"
-        android:textAlignment="center"
         />
 
     <ListView
@@ -37,9 +38,9 @@
         android:id="@+id/loadingText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/loadingText"
         />
