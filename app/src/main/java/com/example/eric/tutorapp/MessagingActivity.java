@@ -193,6 +193,7 @@ public class MessagingActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             Log.d(TAG, "onClick: Not rating");
             Intent intent = new Intent(MessagingActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
