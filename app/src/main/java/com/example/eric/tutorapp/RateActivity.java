@@ -52,6 +52,7 @@ public class RateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (addRatingIfValid()) {
                     Intent intent = new Intent(RateActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }
