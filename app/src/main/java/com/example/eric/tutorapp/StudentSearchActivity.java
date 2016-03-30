@@ -1,5 +1,6 @@
 package com.example.eric.tutorapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.Settings;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class StudentSearchActivity extends AppCompatActivity {
     private static final String TAG = "StudentSearchActivity";
     private static final String PRICE_REG_EX = "[0-9]+([.][0-9]{1,2})?";
+
     private ArrayAdapter<String> courseAdapter;
     private ArrayAdapter<String> buildingAdapter;
     private Map<String, Course> courseMap = new HashMap<>();
@@ -40,6 +42,10 @@ public class StudentSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_student_search);
+
+        //Start the progress dialog
+        ProgressDialog dialog = ProgressDialog.show(this, "Loading", "Please wait...");
+        Utils.initDialogCountdown(dialog, 2);
 
         final Firebase coursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
         final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);
@@ -81,6 +87,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                         map.put(course.toDescriptionString(), course);
                     }
                 }
+                Utils.countdown();
                 return map;
             }
 
@@ -115,6 +122,7 @@ public class StudentSearchActivity extends AppCompatActivity {
                     Building building = new Building(child.getKey(), child.getValue(String.class));
                     map.put(building.toDescriptionString(), building);
                 }
+                Utils.countdown();
                 return map;
             }
 
