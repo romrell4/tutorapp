@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/white"
               android:orientation="vertical"
               tools:context="com.example.eric.tutorapp.AvailableTutorsActivity">
 
@@ -21,6 +20,7 @@
         android:id="@+id/pendingTutors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:background="@color/light_grey"
         android:gravity="center"
         android:paddingTop="2dp"
@@ -32,12 +32,15 @@
         android:id="@+id/availableTutors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/pendingTutors"
+        android:background="@color/white"
         />
 
     <TextView
         android:id="@+id/loadingText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/pendingTutors"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
@@ -45,4 +48,13 @@
         android:text="@string/loadingText"
         />
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/loadingText"
+        android:contentDescription="@string/backgroundIconText"
+        android:layout_margin="20dp"
+        android:src="@drawable/faded_tutor_icon"
+        />
+
+</RelativeLayout>

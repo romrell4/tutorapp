@@ -20,6 +20,7 @@
     <string name="availableTutorsToolbarTitle">Available Tutors</string>
     <string name="pendingTutorsText">36 tutors still haven\'t replied…</string>
     <string name="loadingText">Please allow a few minutes for tutors to see and accept your request.</string>
+    <string name="backgroundIconText">Background Icon</string>
     <string name="tutorImage">Tutor Image</string>
     <string name="reviewAmountFormat">(%d)</string>
 
