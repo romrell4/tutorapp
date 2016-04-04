@@ -83,9 +83,12 @@ public class MessagingActivity extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messages.add(new ChatMessage(chatText.getText().toString(), false, false));
-                messagesRef.setValue(messages);
-                chatText.setText("");
+                String message = chatText.getText().toString();
+                if (!message.isEmpty()) {
+                    messages.add(new ChatMessage(message, false, false));
+                    messagesRef.setValue(messages);
+                    chatText.setText("");
+                }
             }
         });
         listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
