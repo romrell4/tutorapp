@@ -33,7 +33,7 @@
     <!--MessagingActivity-->
     <string name="message_elipses">Write a message…</string>
     <string name="acceptButtonText">Accept</string>
-    <string name="rejectButtonText">Reject</string>
+    <string name="rejectButtonText">Decline</string>
 
     <!--RateActivity-->
     <string name="reviewTextHint">(Optional)</string>
