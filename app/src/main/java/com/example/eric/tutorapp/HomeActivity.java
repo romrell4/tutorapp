@@ -10,6 +10,7 @@ import android.widget.Button;
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     public static final String BASE_URL = "https://romrell4-tutorapp.firebaseio.com/";
+    public static final String TUTOR_ID = "com.tutorapp.tutorId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Tutor");
-                startActivity(new Intent(HomeActivity.this, OpportunitiesActivity.class));
+                Intent intent = new Intent(HomeActivity.this, OpportunitiesActivity.class);
+                intent.putExtra(TUTOR_ID, "-KCSVS2kKATtnZ2D1LNY");
+                startActivity(intent);
             }
         });
 
