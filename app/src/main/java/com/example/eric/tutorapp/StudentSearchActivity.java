@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.eric.tutorapp.model.Building;
@@ -46,6 +47,14 @@ public class StudentSearchActivity extends AppCompatActivity {
         //Start the progress dialog
         ProgressDialog dialog = ProgressDialog.show(this, "Loading", "Please wait...");
         Utils.initDialogCountdown(dialog, 2);
+
+        ImageView imageView = (ImageView) findViewById(R.id.notifications);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StudentSearchActivity.this, "Notification feature coming soon!", Toast.LENGTH_LONG).show();
+            }
+        });
 
         final Firebase coursesRef = new Firebase(HomeActivity.BASE_URL + "courses");
         final AutoCompleteTextView courseText = (AutoCompleteTextView) findViewById(R.id.courseText);

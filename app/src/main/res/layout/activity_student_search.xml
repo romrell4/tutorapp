@@ -13,9 +13,29 @@
         android:id="@+id/toolbar"
         style="@style/ToolBar">
 
-        <TextView
-            style="@style/ToolBarText"
-            android:text="@string/studentSearchToolbarTitle"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/ToolBarText"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/studentSearchToolbarTitle"/>
+
+            <ImageView
+                android:id="@+id/notifications"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/bell"
+                android:layout_alignParentEnd="true"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:contentDescription="@string/notificationIconText"
+                />
+
+        </RelativeLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <ScrollView

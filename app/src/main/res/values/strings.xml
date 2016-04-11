@@ -8,6 +8,7 @@
 
     <!--StudentSearchActivity-->
     <string name="studentSearchToolbarTitle">Get Help</string>
+    <string name="notificationIconText">Notification Icon</string>
     <string name="nameHint">Your Name</string>
     <string name="courseHint">Course</string>
     <string name="priceHint">Price (one time payment)</string>
