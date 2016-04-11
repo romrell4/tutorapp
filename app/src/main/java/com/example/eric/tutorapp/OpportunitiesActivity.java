@@ -114,7 +114,12 @@ public class OpportunitiesActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + adapter.getItem(position).getId()).setValue(null);
+                                TutorRequest request = adapter.getItem(position);
+                                if (request.getId().equals("-KCs4amAoybXmpRn5h7Z")) {
+                                    Toast.makeText(OpportunitiesActivity.this, "You cannot delete this request", Toast.LENGTH_LONG).show();
+                                } else {
+                                    new Firebase(HomeActivity.BASE_URL + "tutorRequests/" + request.getId()).setValue(null);
+                                }
                             }
                         })
                         .setNegativeButton("No", null)
